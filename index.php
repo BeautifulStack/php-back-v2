@@ -1,10 +1,9 @@
 <?php
 
-require_once "api/Database.php";
-require_once "api/Crud/Brand/Brand.php";
+require_once "api/Router/Router.php";
 
-//header("Content-Type: application/json");
+header("Content-Type: application/json");
 
-var_dump($_POST);
-var_dump($_GET);
+$router = new Router($_POST, $_FILES);
 
+$router->route($_GET["path"]);

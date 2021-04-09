@@ -2,10 +2,13 @@
 
 interface CrudInterface
 {
-    /// Return all item in database
-    ///
-    /// args is the list of attributes you want to read
-    /// if empty, return all of them
+    /**
+     * Return all item in database
+     *
+     * args is the list of attributes you want to read
+     * if empty, return all of them
+     * @param array $args
+     */
     public function readAll(array $args);
 
     /// Read attribute(s) of an item
