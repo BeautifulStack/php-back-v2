@@ -3,7 +3,7 @@
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
 
-class File extends CrudClass implements CrudInterface
+class Files extends CrudClass implements CrudInterface
 {
     protected $name = "file";
     protected $key = "idFile";
@@ -12,7 +12,9 @@ class File extends CrudClass implements CrudInterface
         "filePath",
         "fileType",
         "idProduct",
-        "idOrder"
+        "idOrder",
+        "idBrand",
+        "idAssociation"
     ];
     private $fileType;
 

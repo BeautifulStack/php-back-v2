@@ -8,7 +8,7 @@ class Cart extends CrudClass implements CrudInterface
     protected $name = "cart";
     protected $key = "idCart";
     protected $attributes = [
-        "idUser",
+        "idUser"
     ];
 
     public function create(array $args)

@@ -8,6 +8,7 @@ class Transfer extends CrudClass implements CrudInterface
     protected  $name = "transfer";
     protected  $key = "idTransfer";
     protected  $attributes = [
+        "idTransfer",
         "amount",
         "transferDate",
         "idUser",
@@ -18,12 +19,11 @@ class Transfer extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO transfer(amount, transferDate, idUser, idProject) VALUES (?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO transfer(amount, idUser, idProject) VALUES (?, ?, ?)");
         $query->execute([
             $args["amount"],
-            $args["transferDate"],
             $args["idUser"],
-            $args["idProject"],
+            $args["idProject"]
         ]);
     }
 }

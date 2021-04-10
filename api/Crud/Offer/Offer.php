@@ -22,9 +22,8 @@ class Offer extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO offer(dateOffer, price, conditionOffer, isAccepted, idModel, counterOffer, idUser) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO offer(price, conditionOffer, isAccepted, idModel, counterOffer, idUser) VALUES (?, ?, ?, ?, ?, ?)");
         $query->execute([
-            $args["dateOffer"],
             $args["price"],
             $args["conditionOffer"],
             $args["isAccepted"],
