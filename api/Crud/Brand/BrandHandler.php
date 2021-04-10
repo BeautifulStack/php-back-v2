@@ -54,6 +54,7 @@ class BrandHandler
                             "Missing argument(s) !"
                         ])
                     );
+                    exit();
                 }
 
                 $db = new Database();
