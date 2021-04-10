@@ -1,7 +1,7 @@
 <?php
 
 require_once "Brand.php";
-require_once "../../Database.php";
+require_once "api/Database.php";
 
 class BrandHandler
 {
