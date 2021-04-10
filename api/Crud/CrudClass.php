@@ -2,10 +2,10 @@
 
 class CrudClass
 {
-    protected  $conn;
-    protected  $name;
-    protected  $key;
-    protected  $attributes;
+    protected $conn;
+    protected $name;
+    protected $key;
+    protected $attributes;
 
     // Link database connection
     public function __construct(PDO $db)
@@ -22,8 +22,7 @@ class CrudClass
         $response = [];
 
         if (empty($args)) {
-            $args = $this->attributes;
-            return $args;
+            return $this->attributes;
         }
 
         // check if attributes selection is correct
@@ -52,8 +51,7 @@ class CrudClass
         $response = [];
 
         if (empty($args)) {
-            $args = array_keys($this->attributes);
-            return $args;
+            return array_keys($this->attributes);
         }
 
         if (count($args) != $len) {

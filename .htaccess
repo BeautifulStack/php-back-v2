@@ -1,5 +1,4 @@
 allow from all
 
 RewriteEngine On
-RewriteCond %{REQUEST_METHOD} !^POST$
 RewriteRule (.*) index.php?path=$1 [L,NC,QSA]
