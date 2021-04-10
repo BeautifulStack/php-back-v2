@@ -9,9 +9,9 @@ require_once "api/Crud/Cart/Cart.php";
 
 class Product extends CrudClass implements CrudInterface
 {
-    protected  $name = "product";
-    protected  $key = "idProduct";
-    protected  $attributes = [
+    protected $name = "product";
+    protected $key = "idProduct";
+    protected $attributes = [
         "idProduct",
         "idModel",
         "idWarehouse",

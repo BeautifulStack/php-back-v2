@@ -3,12 +3,12 @@
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
 require_once "api/Crud/ProductModel/ProductModel.php";
-/*
+
 class Offer extends CrudClass implements CrudInterface
 {
-    protected  $name = "offer";
-    protected  $key = "idOffer";
-    protected  $attributes = [
+    protected $name = "offer";
+    protected $key = "idOffer";
+    protected $attributes = [
         "idOffer",
         "dateOffer",
         "price",
@@ -32,4 +32,4 @@ class Offer extends CrudClass implements CrudInterface
             $args["counterOffer"]
         ]);
     }
-}*/
+}

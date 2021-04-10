@@ -7,9 +7,9 @@ require_once "api/Crud/Order/Order.php";
 
 class File extends CrudClass implements CrudInterface
 {
-    protected  $name = "file";
-    protected  $key = "idFile";
-    protected  $attributes = [
+    protected $name = "file";
+    protected $key = "idFile";
+    protected $attributes = [
         "idFile",
         "filePath",
         "fileType",

@@ -6,9 +6,9 @@ require_once "api/Crud/ProductModel/ProductModel.php";
 
 class CaractValue extends CrudClass implements CrudInterface
 {
-    protected  $name = "caract_value";
-    protected  $key = "idCaract";
-    protected  $attributes = [
+    protected $name = "caract_value";
+    protected $key = "idCaract";
+    protected $attributes = [
         "idCaract",
         "caractName",
         "caractValue",

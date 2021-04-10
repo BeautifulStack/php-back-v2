@@ -5,9 +5,9 @@ require_once "api/Crud/CrudClass.php";
 
 class User extends CrudClass implements CrudInterface
 {
-    protected  $name = "user";
-    protected  $key = "idUser";
-    protected  $attributes = [
+    protected $name = "user";
+    protected $key = "idUser";
+    protected $attributes = [
         "firstName",
         "lastName",
         "password",

@@ -5,9 +5,9 @@ require_once "api/Crud/CrudClass.php";
 
 class Association extends CrudClass implements CrudInterface
 {
-    protected  $name = "association";
-    protected  $key = "idAssociation";
-    protected  $attributes = [
+    protected $name = "association";
+    protected $key = "idAssociation";
+    protected $attributes = [
         "idAssociation",
         "name",
         "description",

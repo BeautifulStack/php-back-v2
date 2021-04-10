@@ -7,9 +7,9 @@ require_once "api/Crud/Offer/Offer.php";
 
 class UserOffer extends CrudClass implements CrudInterface
 {
-    protected  $name = "user_offer";
-    protected  $key = "idOffer";
-    protected  $attributes = [
+    protected $name = "user_offer";
+    protected $key = "idOffer";
+    protected $attributes = [
         "idUser",
     ];
 

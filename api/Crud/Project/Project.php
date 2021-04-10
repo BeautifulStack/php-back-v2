@@ -6,9 +6,9 @@ require_once "api/Crud/Association/Association.php";
 
 class Project extends CrudClass implements CrudInterface
 {
-    protected  $name = "project";
-    protected  $key = "idProject";
-    protected  $attributes = [
+    protected $name = "project";
+    protected $key = "idProject";
+    protected $attributes = [
         "idProject",
         "name",
         "description",

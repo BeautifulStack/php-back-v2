@@ -6,9 +6,9 @@ require_once "api/Crud/Cart/Cart.php";
 
 class Order extends CrudClass implements CrudInterface
 {
-    protected  $name = "order";
-    protected  $key = "idOrder";
-    protected  $attributes = [
+    protected $name = "order";
+    protected $key = "idOrder";
+    protected $attributes = [
         "idOrder",
         "addressDest",
         "deliveryMode",

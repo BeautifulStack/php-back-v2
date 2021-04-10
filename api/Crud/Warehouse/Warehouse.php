@@ -5,9 +5,9 @@ require_once "api/Crud/CrudClass.php";
 
 class Warehouse extends CrudClass implements CrudInterface
 {
-    protected  $name = "warehouse";
-    protected  $key = "idWarehouse";
-    protected  $attributes = [
+    protected $name = "warehouse";
+    protected $key = "idWarehouse";
+    protected $attributes = [
         "idWarehouse",
         "location",
         "maxCapacity",

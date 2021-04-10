@@ -5,9 +5,9 @@ require_once "api/Crud/CrudClass.php";
 
 class Category extends CrudClass implements CrudInterface
 {
-    protected  $name = "category";
-    protected  $key = "idCategory";
-    protected  $attributes = [
+    protected $name = "category";
+    protected $key = "idCategory";
+    protected $attributes = [
         "idCategory",
         "categoryName"
     ];

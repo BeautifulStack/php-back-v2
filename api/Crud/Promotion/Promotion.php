@@ -7,9 +7,9 @@ require_once "api/Crud/User/User.php";
 
 class Promotion extends CrudClass implements CrudInterface
 {
-    protected  $name = "promotion";
-    protected  $key = "idPromotion";
-    protected  $attributes = [
+    protected $name = "promotion";
+    protected $key = "idPromotion";
+    protected $attributes = [
         "idPromotion",
         "name",
         "dateBegin",
