@@ -30,7 +30,7 @@ class Router
             // Deals with it handler
             case "Brand":
                 $brand_handler = new BrandHandler($this->posts, $this->files);
-                $brand_handler->route($pathArr[1]);
+                $brand_handler->route($pathArr);
                 break;
 
             default:

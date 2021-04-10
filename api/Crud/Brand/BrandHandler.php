@@ -8,19 +8,20 @@ class BrandHandler
     private $post;
     private $files;
 
-    public function __construct(array $post, array $files){
+    public function __construct(array $post, array $files)
+    {
         $this->post = $post;
         $this->files = $files;
     }
 
-    public function route(string $command)
+    public function route(array $pathArr)
     {
-        switch ($command) {
+        switch ($pathArr[1]) {
             case "ReadAll":
                 $args = array();
 
-                if (array_key_exists("attributes", $this->post)) {
-                    $args = explode(',', $this->post["attributes"]);
+                if (count($pathArr) > 2) {
+                    $args = explode(',', $pathArr[2]);
                 }
 
                 $db = new Database();
@@ -40,7 +41,38 @@ class BrandHandler
 
                 break;
 
-            default;
+            case "Read":
+                $args = array();
+
+                if (count($pathArr) > 2) {
+                    $args[0] = $pathArr[2];
+                    if (count($pathArr) > 3) {
+                        $args = array_merge($args, explode(',', $pathArr[3]));
+                    }
+                } else {
+                    echo json_encode(array("errors" => [
+                            "Missing argument(s) !"
+                        ])
+                    );
+                }
+
+                $db = new Database();
+                $brand = new Brand($db->conn);
+
+                $result = $brand->read($args);
+
+                if (count($result) == 0) {
+                    echo json_encode(array("errors" => [
+                            "No results !"
+                        ])
+                    );
+                    exit;
+                }
+
+                echo json_encode($result);
+                break;
+
+            default:
                 echo json_encode(array("errors" => [
                         "None or invalid path indicated !"
                     ])
