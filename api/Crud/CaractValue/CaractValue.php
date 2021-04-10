@@ -2,8 +2,9 @@
 
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
-/*
-class Caract_value extends CrudClass implements CrudInterface
+require_once "api/Crud/ProductModel/ProductModel.php";
+
+class CaractValue extends CrudClass implements CrudInterface
 {
     protected  $name = "caract_value";
     protected  $key = "idCaract";
@@ -26,4 +27,3 @@ class Caract_value extends CrudClass implements CrudInterface
         ]);
     }
 }
-*/
