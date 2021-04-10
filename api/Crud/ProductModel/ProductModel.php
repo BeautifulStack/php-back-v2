@@ -2,6 +2,8 @@
 
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
+require_once "api/Crud/Brand/Brand.php";
+require_once "api/Crud/Category/Category.php";
 
 class ProductModel extends CrudClass implements CrudInterface
 {
@@ -13,6 +15,10 @@ class ProductModel extends CrudClass implements CrudInterface
         "officialPrice",
         "idBrand",
         "idCategory"
+    ];
+    protected $foreignKey = [
+        "idBrand" => ["brand", "brandName"],
+        "idCategory" => ["category", "categoryName"]
     ];
 
     public function create(array $args)

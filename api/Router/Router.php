@@ -1,6 +1,10 @@
 <?php
 
 require_once "api/Crud/Brand/BrandHandler.php";
+require_once "api/Crud/Brand/Brand.php";
+require_once "api/Crud/Category/Category.php";
+require_once "api/Database.php";
+require_once "api/Crud/Handler.php";
 
 class Router
 {
@@ -25,12 +29,21 @@ class Router
             exit;
         }
 
+        // Deals with it handler
         switch ($pathArr[0]) {
 
-            // Deals with it handler
             case "Brand":
-                $brand_handler = new BrandHandler($this->posts, $this->files);
-                $brand_handler->route($pathArr);
+                $db = new Database();
+                $brand = new Brand($db->conn);
+                $handler = new BrandHandler($this->posts, $this->files, $brand);
+                $handler->route($pathArr);
+                break;
+
+            case "Category":
+                $db = new Database();
+                $category = new Category($db->conn);
+                $handler = new Handler($this->posts, $category);
+                $handler->route($pathArr);
                 break;
 
             default:

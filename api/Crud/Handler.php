@@ -1,17 +1,14 @@
 <?php
 
-require_once "api/Crud/Brand/Brand.php";
-require_once "api/Crud/Files/Files.php";
-
-class BrandHandler
+class Handler
 {
-    protected $post;
-    protected $files;
+    protected $object;
+    protected $posts;
 
-    public function __construct(array $post, array $files, Brand $brand)
+    public function __construct(array $posts, $object)
     {
-        $this->post = $post;
-        $this->files = $files;
+        $this->posts = $posts;
+        $this->object = $object;
     }
 
     public function route(array $pathArr)
@@ -20,6 +17,7 @@ class BrandHandler
             case "ReadAll":
                 $args = array();
 
+                // if: Object/ReadAll/(attributes)
                 if (count($pathArr) > 2) {
                     $args = explode(',', $pathArr[2]);
                 }

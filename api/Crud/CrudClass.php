@@ -6,6 +6,7 @@ class CrudClass
     protected $name;
     protected $key;
     protected $attributes;
+    protected $foreignKey = [];
 
     // Link database connection
     public function __construct(PDO $db)
@@ -84,12 +85,37 @@ class CrudClass
         }
     }
 
+    protected function generate_query(array $args): string
+    {
+        $select = [];
+        $join = [];
+
+        foreach ($args as $arg) {
+            if (array_key_exists($arg, $this->foreignKey)) {
+                array_push($select, $this->foreignKey[$arg][1]);
+                array_push($join, "INNER JOIN ".$this->foreignKey[$arg][0]." ON ".$this->name.".".$arg." = ".$this->foreignKey[$arg][0].".".$arg);
+            } else {
+                array_push($select, $arg);
+            }
+        }
+
+        $select = implode(',', $select);
+
+        if (count($this->foreignKey) == 0) {
+            return "SELECT ".$select." FROM ".$this->name;
+        }
+
+        $join = implode("\n", $join);
+
+        return "SELECT ".$select." FROM ".$this->name."\n".$join;
+    }
+
     public function readAll(array $args): array
     {
         $args = $this->check_attributes($args);
-        $statement = implode(',', $args);
+        $query = $this->generate_query($args);
 
-        $query = $this->conn->query("SELECT ".$statement." FROM ".$this->name);
+        $query = $this->conn->query($query);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -98,9 +124,9 @@ class CrudClass
         $id = array_splice($args, 0, 1);
 
         $args = $this->check_attributes($args);
-        $statement = implode(',', $args);
+        $query = $this->generate_query($args);
 
-        $query = $this->conn->query("SELECT ".$statement." FROM ".$this->name." WHERE ".$this->key." = ".$id[0]);
+        $query = $this->conn->query($query."\nWHERE ".$this->key." = ".$id[0]);
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
