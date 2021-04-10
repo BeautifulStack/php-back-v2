@@ -2,10 +2,10 @@
 
 class CrudClass
 {
-    protected PDO $conn;
-    protected string $name;
-    protected string $key;
-    protected array $attributes;
+    protected  $conn;
+    protected  $name;
+    protected  $key;
+    protected  $attributes;
 
     // Link database connection
     public function __construct(PDO $db)
