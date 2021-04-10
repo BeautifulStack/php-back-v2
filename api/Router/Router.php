@@ -17,7 +17,7 @@ class Router
     {
         $pathArr = explode('/', $path);
 
-        if (empty($pathArr)) {
+        if (empty($pathArr) || count($pathArr) < 2 || empty($pathArr[1])) {
             echo json_encode(array("errors" => [
                     "None or invalid path indicated !"
                 ])
