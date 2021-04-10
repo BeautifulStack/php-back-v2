@@ -39,6 +39,12 @@ class BrandHandler
                 echo json_encode($result);
 
                 break;
+
+            default;
+                echo json_encode(array("errors" => [
+                        "None or invalid path indicated !"
+                    ])
+                );
         }
     }
 }
