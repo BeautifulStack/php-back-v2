@@ -2,7 +2,6 @@
 
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
-require_once "api/Crud/ProductModel/ProductModel.php";
 
 class Offer extends CrudClass implements CrudInterface
 {
@@ -15,21 +14,23 @@ class Offer extends CrudClass implements CrudInterface
         "conditionOffer",
         "isAccepted",
         "idModel",
-        "counterOffer"
+        "counterOffer",
+        "idUser"
     ];
 
     public function create(array $args)
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO offer(dateOffer, price, conditionOffer, isAccepted, idModel, counterOffer) VALUES (?, ?, ?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO offer(dateOffer, price, conditionOffer, isAccepted, idModel, counterOffer, idUser) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $query->execute([
             $args["dateOffer"],
             $args["price"],
             $args["conditionOffer"],
             $args["isAccepted"],
             $args["idModel"],
-            $args["counterOffer"]
+            $args["counterOffer"],
+            $args["idUser"]
         ]);
     }
 }

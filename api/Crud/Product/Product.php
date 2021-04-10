@@ -2,10 +2,6 @@
 
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
-require_once "api/Crud/ProductModel/ProductModel.php";
-require_once "api/Crud/Warehouse/Warehouse.php";
-require_once "api/Crud/Offer/Offer.php";
-require_once "api/Crud/Cart/Cart.php";
 
 class Product extends CrudClass implements CrudInterface
 {
@@ -13,6 +9,10 @@ class Product extends CrudClass implements CrudInterface
     protected $key = "idProduct";
     protected $attributes = [
         "idProduct",
+        "disponibility",
+        "conditionProduct",
+        "date",
+        "isDelivered",
         "idModel",
         "idWarehouse",
         "idOffer",
@@ -23,9 +23,11 @@ class Product extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO product(idProduct, idModel, idWarehouse, idOffer, idCart) VALUES (?, ?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO product(disponibility, conditionProduct, isDelivered, idModel, idWarehouse, idOffer, idCart) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $query->execute([
-            $args["idProduct"],
+            $args["disponibility"],
+            $args["conditionProduct"],
+            $args["isDelivered"],
             $args["idModel"],
             $args["idWarehouse"],
             $args["idOffer"],

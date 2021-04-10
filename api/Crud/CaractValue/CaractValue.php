@@ -2,7 +2,6 @@
 
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
-require_once "api/Crud/ProductModel/ProductModel.php";
 
 class CaractValue extends CrudClass implements CrudInterface
 {

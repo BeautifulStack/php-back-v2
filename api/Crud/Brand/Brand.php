@@ -9,18 +9,16 @@ class Brand extends CrudClass implements CrudInterface
     protected $key = "idBrand";
     protected $attributes = [
         "idBrand",
-        "brandName",
-        "logo"
+        "brandName"
     ];
 
     public function create(array $args)
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO brand(brandName, logo) VALUES (?, ?)");
+        $query = $this->conn->prepare("INSERT INTO brand(brandName) VALUES (?)");
         $query->execute([
-            $args["brandName"],
-            $args["logo"]
+            $args["brandName"]
         ]);
     }
 }

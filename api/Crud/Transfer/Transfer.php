@@ -2,8 +2,6 @@
 
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
-require_once "api/Crud/User/User.php";
-require_once "api/Crud/Project/Project.php";
 
 class Transfer extends CrudClass implements CrudInterface
 {

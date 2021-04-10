@@ -10,19 +10,17 @@ class Association extends CrudClass implements CrudInterface
     protected $attributes = [
         "idAssociation",
         "name",
-        "description",
-        "logo"
+        "description"
     ];
 
     public function create(array $args)
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO association(name, description, logo) VALUES (?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO association(name, description) VALUES (?, ?)");
         $query->execute([
             $args["name"],
-            $args["description"],
-            $args["logo"]
+            $args["description"]
         ]);
     }
 }

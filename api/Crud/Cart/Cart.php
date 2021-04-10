@@ -2,7 +2,6 @@
 
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
-require_once "api/Crud/User/User.php";
 
 class Cart extends CrudClass implements CrudInterface
 {

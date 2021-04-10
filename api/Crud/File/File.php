@@ -2,8 +2,6 @@
 
 require_once "api/Crud/CrudInterface.php";
 require_once "api/Crud/CrudClass.php";
-require_once "api/Crud/Product/Product.php";
-require_once "api/Crud/Order/Order.php";
 
 class File extends CrudClass implements CrudInterface
 {
@@ -16,17 +14,23 @@ class File extends CrudClass implements CrudInterface
         "idProduct",
         "idOrder"
     ];
+    private $fileType;
+
+    public function __construct(PDO $db, string $fileType)
+    {
+        parent::__construct($db);
+        $this->fileType = $fileType;
+    }
 
     public function create(array $args)
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO file(filePath ,fileType, idProduct, idOrder) VALUES (?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO files(filePath ,fileType, ".$this->fileType.") VALUES (?, ?, ?)");
         $query->execute([
             $args["filePath"],
             $args["fileType"],
-            $args["idProduct"],
-            $args["idOrder"]
+            $args[$this->fileType]
         ]);
     }
 }
