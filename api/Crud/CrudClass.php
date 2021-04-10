@@ -133,8 +133,8 @@ class CrudClass
 
     public function update(array $args)
     {
-        $id = $args[0];
-        unset($args[0]);
+        $id = $args["id"];
+        unset($args["id"]);
 
         $this->check_attributes_update(array_keys($args));
 

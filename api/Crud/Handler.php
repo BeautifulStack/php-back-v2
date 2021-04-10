@@ -40,7 +40,7 @@ class Handler
                 $args = array();
 
                 if (count($pathArr) > 2) {
-                    $args[0] = $pathArr[2];
+                    $args[0] = $pathArr[2]; // id as index 0
                     if (count($pathArr) > 3) {
                         $args = array_merge($args, explode(',', $pathArr[3]));
                     }
@@ -52,10 +52,7 @@ class Handler
                     exit();
                 }
 
-                $db = new Database();
-                $brand = new Brand($db->conn);
-
-                $result = $brand->read($args);
+                $result = $this->object->read($args);
 
                 if (count($result) == 0) {
                     echo json_encode(array("errors" => [
@@ -66,6 +63,24 @@ class Handler
                 }
 
                 echo json_encode($result);
+                break;
+
+            case "Create":
+
+                $this->object->create($this->posts);
+
+                break;
+
+            case "Update":
+
+                $this->object->update($this->posts);
+
+                break;
+
+            case "Delete":
+
+                $this->object->delete($this->posts["id"]);
+
                 break;
 
             default:
