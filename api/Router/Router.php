@@ -1,5 +1,7 @@
 <?php
 
+require_once "../Crud/Brand/BrandHandler.php";
+
 class Router
 {
     private array $posts;
@@ -20,13 +22,22 @@ class Router
                     "None or invalid path indicated !"
                 ])
             );
+            exit;
         }
 
-        switch ($pathArr[0]){
+        switch ($pathArr[0]) {
 
             // Deals with it handler
             case "Brand":
                 new BrandHandler($pathArr[1], $this->posts, $this->files);
+                break;
+
+            default:
+                echo json_encode(array("errors" => [
+                        "None or invalid path indicated !"
+                    ])
+                );
+                exit;
         }
 
     }
