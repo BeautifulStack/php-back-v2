@@ -5,15 +5,22 @@ require_once "../../Database.php";
 
 class BrandHandler
 {
+    private $post;
+    private $files;
 
-    public function __construct(string $command, array $post, array $files)
+    public function __construct(array $post, array $files){
+        $this->post = $post;
+        $this->files = $files;
+    }
+
+    public function route(string $command)
     {
         switch ($command) {
             case "ReadAll":
                 $args = array();
 
-                if (array_key_exists("attributes", $post)) {
-                    $args = explode(',', $post["attributes"]);
+                if (array_key_exists("attributes", $this->post)) {
+                    $args = explode(',', $this->post["attributes"]);
                 }
 
                 $db = new Database();

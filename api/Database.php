@@ -4,7 +4,7 @@ require_once "config/config.php";
 
 class Database
 {
-    public PDO $conn;
+    public $conn;
 
     public function __construct()
     {

@@ -1,11 +1,11 @@
 <?php
 
-require_once "../Crud/Brand/BrandHandler.php";
+require_once "api/Crud/Brand/BrandHandler.php";
 
 class Router
 {
-    private array $posts;
-    private array $files;
+    private $posts;
+    private $files;
 
     public function __construct(array $posts, array $files)
     {
@@ -16,6 +16,8 @@ class Router
     public function route(string $path)
     {
         $pathArr = explode('/', $path);
+
+        echo "DEBUG";
 
         if (empty($pathArr)) {
             echo json_encode(array("errors" => [
@@ -29,7 +31,8 @@ class Router
 
             // Deals with it handler
             case "Brand":
-                new BrandHandler($pathArr[1], $this->posts, $this->files);
+                $brand_handler = new BrandHandler($this->posts, $this->files);
+                $brand_handler->route($pathArr[1]);
                 break;
 
             default:
