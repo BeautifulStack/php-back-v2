@@ -1,8 +1,5 @@
 <?php
 
-require_once "api/Crud/CrudInterface.php";
-require_once "api/Crud/CrudClass.php";
-
 class Project extends CrudClass implements CrudInterface
 {
     protected $name = "project";
@@ -12,6 +9,9 @@ class Project extends CrudClass implements CrudInterface
         "name",
         "description",
         "idAssociation"
+    ];
+    protected $foreignKey = [
+        "idAssociation" => ["association", "name"]
     ];
 
     public function create(array $args)

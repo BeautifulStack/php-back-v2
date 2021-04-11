@@ -1,8 +1,5 @@
 <?php
 
-require_once "api/Crud/CrudInterface.php";
-require_once "api/Crud/CrudClass.php";
-
 class Promotion extends CrudClass implements CrudInterface
 {
     protected $name = "promotion";
@@ -13,6 +10,9 @@ class Promotion extends CrudClass implements CrudInterface
         "dateBegin",
         "dateEnd",
         "idUser",
+    ];
+    protected $foreignKey = [
+        "idUser" => ["user", "lastName"]
     ];
 
     public function create(array $args)

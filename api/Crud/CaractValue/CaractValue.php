@@ -1,8 +1,5 @@
 <?php
 
-require_once "api/Crud/CrudInterface.php";
-require_once "api/Crud/CrudClass.php";
-
 class CaractValue extends CrudClass implements CrudInterface
 {
     protected $name = "caract_value";
@@ -12,6 +9,9 @@ class CaractValue extends CrudClass implements CrudInterface
         "caractName",
         "caractValue",
         "idModel"
+    ];
+    protected $foreignKey = [
+        "idModel" => ["product_model", "modelName"]
     ];
 
     public function create(array $args)
