@@ -3,11 +3,9 @@
 class Handler
 {
     protected $object;
-    protected $posts;
 
-    public function __construct(array $posts, $object)
+    public function __construct($object)
     {
-        $this->posts = $posts;
         $this->object = $object;
     }
 
@@ -67,19 +65,19 @@ class Handler
 
             case "Create":
 
-                $this->object->create($this->posts);
+                $this->object->create($_POST);
 
                 break;
 
             case "Update":
 
-                $this->object->update($this->posts);
+                $this->object->update($_POST);
 
                 break;
 
             case "Delete":
 
-                $this->object->delete($this->posts["id"]);
+                $this->object->delete($_POST["id"]);
 
                 break;
 

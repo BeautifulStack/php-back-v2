@@ -33,7 +33,7 @@ require_once "api/Router/Router.php";
 
 header("Content-Type: application/json");
 
-$router = new Router($_POST);
+$router = new Router();
 
 $router->route($_GET["path"]);
 

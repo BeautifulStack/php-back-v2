@@ -2,12 +2,6 @@
 
 class Router
 {
-    private $posts;
-
-    public function __construct(array $posts)
-    {
-        $this->posts = $posts;
-    }
 
     public function route(string $path)
     {
@@ -41,21 +35,21 @@ class Router
             case "Cart":
                 $db = new Database();
                 $object = new Cart($db->conn);
-                $handler = new Handler($this->posts, $object);
+                $handler = new Handler($object);
                 $handler->route($pathArr);
                 break;
 
             case "Category":
                 $db = new Database();
                 $object = new Category($db->conn);
-                $handler = new Handler($this->posts, $object);
+                $handler = new Handler($object);
                 $handler->route($pathArr);
                 break;
 
             case "Offer":
                 $db = new Database();
                 $object = new Offer($db->conn);
-                $handler = new Handler($this->posts, $object);
+                $handler = new Handler($object);
                 $handler->route($pathArr);
                 break;
 
@@ -83,35 +77,35 @@ class Router
             case "Project":
                 $db = new Database();
                 $object = new Project($db->conn);
-                $handler = new Handler($this->posts, $object);
+                $handler = new Handler($object);
                 $handler->route($pathArr);
                 break;
 
             case "Promotion":
                 $db = new Database();
                 $object = new Promotion($db->conn);
-                $handler = new Handler($this->posts, $object);
+                $handler = new Handler($object);
                 $handler->route($pathArr);
                 break;
 
             case "Transfer":
                 $db = new Database();
                 $object = new Transfer($db->conn);
-                $handler = new Handler($this->posts, $object);
+                $handler = new Handler($object);
                 $handler->route($pathArr);
                 break;
 
             case "User":
                 $db = new Database();
                 $object = new User($db->conn);
-                $handler = new Handler($this->posts, $object);
+                $handler = new Handler($object);
                 $handler->route($pathArr);
                 break;
 
             case "Warehouse":
                 $db = new Database();
                 $object = new Warehouse($db->conn);
-                $handler = new Handler($this->posts, $object);
+                $handler = new Handler($object);
                 $handler->route($pathArr);
                 break;
 
