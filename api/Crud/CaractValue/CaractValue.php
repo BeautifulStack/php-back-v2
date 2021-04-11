@@ -24,5 +24,6 @@ class CaractValue extends CrudClass implements CrudInterface
             $args["caractValue"],
             $args["idModel"]
         ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

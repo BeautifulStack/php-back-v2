@@ -24,5 +24,6 @@ class Project extends CrudClass implements CrudInterface
             $args["description"],
             $args["idAssociation"]
         ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

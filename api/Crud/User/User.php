@@ -31,5 +31,6 @@ class User extends CrudClass implements CrudInterface
             $args["isValidated"],
             $args["isAdmin"]
             ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

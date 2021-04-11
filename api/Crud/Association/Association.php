@@ -21,5 +21,6 @@ class Association extends CrudClass implements CrudInterface
             $args["description"],
             $args["logo"]
         ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

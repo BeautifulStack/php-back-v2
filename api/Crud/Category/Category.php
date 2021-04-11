@@ -17,5 +17,6 @@ class Category extends CrudClass implements CrudInterface
         $query->execute([
             $args["categoryName"]
         ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

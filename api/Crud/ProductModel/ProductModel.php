@@ -27,5 +27,6 @@ class ProductModel extends CrudClass implements CrudInterface
             $args["idBrand"],
             $args["idCategory"]
         ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

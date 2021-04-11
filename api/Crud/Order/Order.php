@@ -31,5 +31,6 @@ class Order extends CrudClass implements CrudInterface
             $args["isPaid"],
             $args["idCart"]
         ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }
