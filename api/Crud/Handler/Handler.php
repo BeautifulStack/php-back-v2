@@ -43,6 +43,17 @@ class Handler
         return $path;
     }
 
+    protected function delete_file($id, $attr)
+    {
+        $res = $this->object->read([$id, $attr]);
+
+        try {
+            unlink($res[0][$attr]);
+        } catch (Exception $e) {}
+
+        return $res[0][$attr];
+    }
+
     protected function readAll(array $pathArr)
     {
         $args = array();
