@@ -9,7 +9,7 @@ class Handler
         $this->object = $object;
     }
 
-    protected function upload_file(string $path, string $attr)
+    protected function upload_file(string $path, string $attr): string
     {
         $acceptable = [
             "image/jpeg",
@@ -39,6 +39,8 @@ class Handler
         $path = $path.".".$type;
 
         move_uploaded_file($_FILES[$attr]["tmp_name"], $path);
+
+        return $path;
     }
 
     protected function readAll(array $pathArr)
@@ -95,7 +97,7 @@ class Handler
 
     protected function create()
     {
-        $this->object->create($_POST);
+         return $this->object->create($_POST);
     }
 
     protected function update()

@@ -21,15 +21,15 @@ class Router
             case "Association":
                 $db = new Database();
                 $object = new Association($db->conn);
-                //$handler = new Handler($this->posts, $object);
-                //$handler->route($pathArr);
+                $handler = new HandlerLogo($object, "name");
+                $handler->route($pathArr);
                 break;
 
             case "Brand":
                 $db = new Database();
                 $brand = new Brand($db->conn);
-                //$handler = new BrandHandler($this->posts, $this->files, $brand);
-                //$handler->route($pathArr);
+                $handler = new HandlerLogo($brand, "brandName");
+                $handler->route($pathArr);
                 break;
 
             case "Cart":

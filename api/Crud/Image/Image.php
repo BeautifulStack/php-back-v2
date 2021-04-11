@@ -28,6 +28,6 @@ class Image extends CrudClass implements CrudInterface
             $args["path"],
             $args["idRefer"]
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        //return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

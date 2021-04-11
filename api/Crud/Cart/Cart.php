@@ -20,6 +20,6 @@ class Cart extends CrudClass implements CrudInterface
         $query->execute([
             $args["idUser"]
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        //return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

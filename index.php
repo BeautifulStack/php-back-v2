@@ -26,6 +26,7 @@ require_once "api/Crud/Warehouse/Warehouse.php";
 
 // Handle request
 require_once "api/Crud/Handler/Handler.php";
+require_once "api/Crud/Handler/HandlerLogo.php";
 
 // Route request to right object
 require_once "api/Router/Router.php";

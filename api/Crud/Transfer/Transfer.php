@@ -26,6 +26,6 @@ class Transfer extends CrudClass implements CrudInterface
             $args["idUser"],
             $args["idProject"]
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        //return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

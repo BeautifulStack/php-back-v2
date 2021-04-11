@@ -34,6 +34,6 @@ class Product extends CrudClass implements CrudInterface
             $args["idOffer"],
             $args["idCart"]
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        //return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

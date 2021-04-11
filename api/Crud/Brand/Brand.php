@@ -2,7 +2,7 @@
 
 class Brand extends CrudClass implements CrudInterface
 {
-    protected $name = "brand";
+    public $name = "brand";
     protected $key = "idBrand";
     protected $attributes = [
         "idBrand",
@@ -10,7 +10,7 @@ class Brand extends CrudClass implements CrudInterface
         "logo"
     ];
 
-    public function create(array $args): array
+    public function create(array $args)
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
@@ -19,6 +19,6 @@ class Brand extends CrudClass implements CrudInterface
             $args["brandName"],
             $args["logo"]
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        //return $query->fetchAll();
     }
 }

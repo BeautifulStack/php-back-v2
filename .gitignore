@@ -1,3 +1,7 @@
 .idea
 
 config/config.php
+
+data/brand/*
+data/association/*
+data/product/*

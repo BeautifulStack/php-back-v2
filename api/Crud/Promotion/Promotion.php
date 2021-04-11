@@ -26,6 +26,6 @@ class Promotion extends CrudClass implements CrudInterface
             $args["dateEnd"],
             $args["idUser"]
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        //return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

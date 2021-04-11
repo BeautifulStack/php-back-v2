@@ -20,9 +20,11 @@ class HandlerLogo extends Handler
             exit;
         }
 
-        $path = $this->object->name."/".strtolower($_POST[$this->filename]);
+        $path = "data/".$this->object->name."/".str_replace(" ", "-", strtolower($_POST[$this->filename]));
 
-        $this->upload_file($path, "logo");
+        $path = $this->upload_file($path, "logo");
+
+        $_POST["logo"] = $path;
 
         parent::create();
     }

@@ -33,6 +33,6 @@ class Offer extends CrudClass implements CrudInterface
             $args["counterOffer"],
             $args["idUser"]
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        //return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

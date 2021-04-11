@@ -19,6 +19,6 @@ class Warehouse extends CrudClass implements CrudInterface
             $args["location"],
             $args["maxCapacity"]
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        //return $query->fetch(PDO::FETCH_ASSOC);
     }
 }
