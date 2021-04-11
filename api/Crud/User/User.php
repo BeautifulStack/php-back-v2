@@ -18,8 +18,7 @@ class User extends CrudClass implements CrudInterface
         "lastLoginDate",
         "isValidated",
         "isAdmin",
-        "greenCoinsBalance",
-
+        "greenCoinsBalance"
     ];
 
     public function create(array $args)

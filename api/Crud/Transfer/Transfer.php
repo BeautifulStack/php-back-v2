@@ -14,6 +14,10 @@ class Transfer extends CrudClass implements CrudInterface
         "idUser",
         "idProject"
     ];
+    protected $foreignKey = [
+        "idUser" => ["user", "lastName"],
+        "idProject" => ["project", "name"]
+    ];
 
     public function create(array $args)
     {

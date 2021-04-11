@@ -10,6 +10,9 @@ class Cart extends CrudClass implements CrudInterface
     protected $attributes = [
         "idUser"
     ];
+    protected $foreignKey = [
+        "idUser" => ["user", "lastName"]
+    ];
 
     public function create(array $args)
     {

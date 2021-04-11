@@ -14,6 +14,9 @@ class Promotion extends CrudClass implements CrudInterface
         "dateEnd",
         "idUser",
     ];
+    protected $foreignKey = [
+        "idUser" => ["user", "lastName"]
+    ];
 
     public function create(array $args)
     {

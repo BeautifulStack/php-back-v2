@@ -13,6 +13,9 @@ class Project extends CrudClass implements CrudInterface
         "description",
         "idAssociation"
     ];
+    protected $foreignKey = [
+        "idAssociation" => ["association", "name"]
+    ];
 
     public function create(array $args)
     {

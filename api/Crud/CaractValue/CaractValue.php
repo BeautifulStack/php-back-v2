@@ -13,6 +13,9 @@ class CaractValue extends CrudClass implements CrudInterface
         "caractValue",
         "idModel"
     ];
+    protected $foreignKey = [
+        "idModel" => ["product_model", "modelName"]
+    ];
 
     public function create(array $args)
     {

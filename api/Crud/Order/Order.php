@@ -15,21 +15,26 @@ class Order extends CrudClass implements CrudInterface
         "deliveryStatus",
         "isPaid",
         "orderDate",
-        "idCart"
+        "idCart",
+        "billPath"
+    ];
+    protected $foreignKey = [
+        "idCart" => ["cart", "idUser"]
     ];
 
     public function create(array $args)
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO `order`(totalPrice, addressDest, deliveryMode, deliveryStatus, isPaid, idCart) VALUES (?, ?, ?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO `order`(totalPrice, addressDest, deliveryMode, deliveryStatus, isPaid, idCart, billPath) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $query->execute([
             $args["totalPrice"],
             $args["addressDest"],
             $args["deliveryMode"],
             $args["deliveryStatus"],
             $args["isPaid"],
-            $args["idCart"]
+            $args["idCart"],
+            $args["billPath"]
         ]);
     }
 }

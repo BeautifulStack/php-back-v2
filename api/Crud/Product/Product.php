@@ -18,6 +18,10 @@ class Product extends CrudClass implements CrudInterface
         "idOffer",
         "idCart"
     ];
+    protected $foreignKey = [
+        "idModel" => ["product_model", "modelName"],
+        "idWarehouse" => ["warehouse", "location"]
+    ];
 
     public function create(array $args)
     {
