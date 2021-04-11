@@ -21,7 +21,7 @@ class User extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-3);
 
-        $query = $this->conn->prepare("INSERT INTO user(firstName, lastName, password, email, phoneNumber, isValidated, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO user(firstName, lastName, password, email, phoneNumber, isValidated, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() as id;");
         $query->execute([
             $args["firstName"],
             $args["lastName"],

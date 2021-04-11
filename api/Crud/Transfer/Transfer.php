@@ -20,7 +20,7 @@ class Transfer extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO transfer(amount, idUser, idProject) VALUES (?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO transfer(amount, idUser, idProject) VALUES (?, ?, ?); SELECT LAST_INSERT_ID() as id;");
         $query->execute([
             $args["amount"],
             $args["idUser"],

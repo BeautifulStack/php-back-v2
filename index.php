@@ -1,8 +1,8 @@
 <?php
 
 // Connect to db, need config.php
-require_once "api/Database.php";
 require_once "config/config.php";
+require_once "api/Database.php";
 
 // CRUD
 require_once "api/Crud/CrudInterface.php";

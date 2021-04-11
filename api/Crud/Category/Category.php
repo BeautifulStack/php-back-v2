@@ -13,7 +13,7 @@ class Category extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO category(categoryName) VALUES (?)");
+        $query = $this->conn->prepare("INSERT INTO category(categoryName) VALUES (?); SELECT LAST_INSERT_ID() as id;");
         $query->execute([
             $args["categoryName"]
         ]);

@@ -7,7 +7,7 @@ class Image extends CrudClass implements CrudInterface
     protected $attributes = [
         "idImage",
         "path",
-        "idProduct"
+        "idRefer"
     ];
     protected $foreignKey = [
         "idProduct" => ["product", "idProduct"]
@@ -23,10 +23,10 @@ class Image extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO image(path, idProduct) VALUES (?, ?)");
+        $query = $this->conn->prepare("INSERT INTO image(path, idRefer) VALUES (?, ?); SELECT LAST_INSERT_ID() as id;");
         $query->execute([
             $args["path"],
-            $args["idProduct"]
+            $args["idRefer"]
         ]);
     }
 }

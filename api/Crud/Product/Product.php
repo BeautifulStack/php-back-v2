@@ -24,7 +24,7 @@ class Product extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO product(disponibility, conditionProduct, isDelivered, idModel, idWarehouse, idOffer, idCart) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO product(disponibility, conditionProduct, isDelivered, idModel, idWarehouse, idOffer, idCart) VALUES (?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() as id;");
         $query->execute([
             $args["disponibility"],
             $args["conditionProduct"],

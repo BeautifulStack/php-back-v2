@@ -18,7 +18,7 @@ class Project extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO project(name, description, idAssociation) VALUES (?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO project(name, description, idAssociation) VALUES (?, ?, ?); SELECT LAST_INSERT_ID() as id;");
         $query->execute([
             $args["name"],
             $args["description"],
