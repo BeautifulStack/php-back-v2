@@ -56,8 +56,8 @@ class Router
             case "Order":
                 $db = new Database();
                 $object = new Order($db->conn);
-                //$handler = new Handler($this->posts, $object);
-                //$handler->route($pathArr);
+                $handler = new Handler($object);
+                $handler->route($pathArr);
                 break;
 
             case "Product":
