@@ -1,8 +1,5 @@
 <?php
 
-require_once "api/Crud/CrudInterface.php";
-require_once "api/Crud/CrudClass.php";
-
 class Promotion extends CrudClass implements CrudInterface
 {
     protected $name = "promotion";

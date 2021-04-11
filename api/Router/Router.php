@@ -1,20 +1,12 @@
 <?php
 
-require_once "api/Crud/Brand/BrandHandler.php";
-require_once "api/Crud/Brand/Brand.php";
-require_once "api/Crud/Category/Category.php";
-require_once "api/Database.php";
-require_once "api/Crud/Handler/Handler.php";
-
 class Router
 {
     private $posts;
-    private $files;
 
-    public function __construct(array $posts, array $files)
+    public function __construct(array $posts)
     {
         $this->posts = $posts;
-        $this->files = $files;
     }
 
     public function route(string $path)

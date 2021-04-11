@@ -1,8 +1,5 @@
 <?php
 
-require_once "api/Crud/Brand/Brand.php";
-require_once "api/Crud/Image/Image.php";
-
 class BrandHandler
 {
     protected $post;
