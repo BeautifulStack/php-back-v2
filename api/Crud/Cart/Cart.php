@@ -5,6 +5,7 @@ class Cart extends CrudClass implements CrudInterface
     protected $name = "cart";
     protected $key = "idCart";
     protected $attributes = [
+        "idCart",
         "idUser"
     ];
     protected $foreignKey = [
