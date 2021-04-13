@@ -36,7 +36,7 @@ class CaractValue extends CrudClass implements CrudInterface
 
     public function read_id_by_name($id, $name): array
     {
-        $query = $this->conn->prepare("SELECT idCaract FROM caract_value WHERE idCaract = ? AND caractName = ?");
+        $query = $this->conn->prepare("SELECT idCaract FROM caract_value WHERE idModel = ? AND caractName = ?");
         $query->execute([$id, $name]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }

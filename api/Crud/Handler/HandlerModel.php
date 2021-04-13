@@ -54,17 +54,19 @@ class HandlerModel extends Handler
 
     protected function update(): array
     {
-        $result = parent::update();
 
         if (array_key_exists("caractValue", $_POST)) {
+            $caractArr = $_POST["caractValue"];
+            unset($_POST["caractValue"]);
+
             $db = new Database();
             $caract_value = new CaractValue($db->conn);
 
-            foreach ($_POST["caractValue"] as $key => $value) {
+            foreach ($caractArr as $key => $value) {
                 $res = $caract_value->read_id_by_name($_POST["id"], $key);
                 if (count($res) == 0) {
                     echo json_encode(array("errors" => [
-                            $key." not found !"
+                            $key . " not found !"
                         ])
                     );
                     exit();
@@ -72,11 +74,14 @@ class HandlerModel extends Handler
 
                 $caract_value->update([
                     "id" => $res[0]["idCaract"],
-                    $key => $value
+                    "caractValue" => $value
                 ]);
+
             }
         }
 
-        return ["saaaaah"];
+        parent::update();
+
+        return [];
     }
 }

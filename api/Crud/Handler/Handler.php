@@ -118,7 +118,8 @@ class Handler
 
     protected function delete()
     {
-        return $this->object->delete($_POST["id"]);
+        $this->object->delete($_POST["id"]);
+        return [];
     }
 
     public function route(array $pathArr): array
@@ -126,23 +127,18 @@ class Handler
         switch ($pathArr[1]) {
             case "ReadAll":
                 return $this->readAll($pathArr);
-                break;
 
             case "Read":
                 return $this->read($pathArr);
-                break;
 
             case "Create":
                 return $this->create();
-                break;
 
             case "Update":
                 return $this->update();
-                break;
 
             case "Delete":
                 return $this->delete();
-                break;
 
             default:
                 echo json_encode(array("errors" => [
