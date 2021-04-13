@@ -54,7 +54,7 @@ class Handler
         return $res[0][$attr];
     }
 
-    protected function readAll(array $pathArr)
+    protected function readAll(array $pathArr): array
     {
         $args = array();
 
@@ -73,7 +73,7 @@ class Handler
             exit;
         }
 
-        echo json_encode($result);
+        return $result;
     }
 
     protected function read(array $pathArr)
@@ -103,7 +103,7 @@ class Handler
             exit;
         }
 
-        echo json_encode($result);
+        return $result;
     }
 
     protected function create()
@@ -113,35 +113,35 @@ class Handler
 
     protected function update()
     {
-        $this->object->update($_POST);
+        return $this->object->update($_POST);
     }
 
     protected function delete()
     {
-        $this->object->delete($_POST["id"]);
+        return $this->object->delete($_POST["id"]);
     }
 
-    public function route(array $pathArr)
+    public function route(array $pathArr): array
     {
         switch ($pathArr[1]) {
             case "ReadAll":
-                $this->readAll($pathArr);
+                return $this->readAll($pathArr);
                 break;
 
             case "Read":
-                $this->read($pathArr);
+                return $this->read($pathArr);
                 break;
 
             case "Create":
-                $this->create();
+                return $this->create();
                 break;
 
             case "Update":
-                $this->update();
+                return $this->update();
                 break;
 
             case "Delete":
-                $this->delete();
+                return $this->delete();
                 break;
 
             default:
@@ -149,6 +149,7 @@ class Handler
                         "None or invalid path indicated !"
                     ])
                 );
+                exit();
         }
     }
 }

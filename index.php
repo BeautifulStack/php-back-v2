@@ -27,16 +27,20 @@ require_once "api/Crud/Warehouse.php";
 // Handle request
 require_once "api/Crud/Handler/Handler.php";
 require_once "api/Crud/Handler/HandlerLogo.php";
+require_once "api/Crud/Handler/HandlerModel.php";
 
 // Route request to right object
 require_once "api/Router/Router.php";
 
+// Accept form-data OR json
+if (count($_POST) == 0) {
+    $json = file_get_contents("php://input");
+    $data = json_decode($json, TRUE);
+    $_POST = $data;
+}
 
 header("Content-Type: application/json");
 
 $router = new Router();
 
 $router->route($_GET["path"]);
-
-//var_dump($_FILES);
-//var_dump($_POST);
