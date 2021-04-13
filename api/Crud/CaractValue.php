@@ -27,10 +27,17 @@ class CaractValue extends CrudClass implements CrudInterface
         //return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function read_by_id($id)
+    public function read_by_id($id): array
     {
-        $query = $this->conn->prepare("SELECT caractName,caractValue FROM caract_value WHERE idCaract = ?");
+        $query = $this->conn->prepare("SELECT caractName,caractValue FROM caract_value WHERE idModel = ?");
         $query->execute([$id]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function read_id_by_name($id, $name): array
+    {
+        $query = $this->conn->prepare("SELECT idCaract FROM caract_value WHERE idCaract = ? AND caractName = ?");
+        $query->execute([$id, $name]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 class HandlerModel extends Handler
 {
     protected function readAll(array $pathArr): array
@@ -8,12 +7,12 @@ class HandlerModel extends Handler
         $result = parent::readAll($pathArr);
 
         if (!array_key_exists("errors", $result)) {
-            foreach ($result as $row) {
+            foreach ($result as $key => $row) {
                 $id = $row["idModel"];
                 $db = new Database();
                 $caract_value = new CaractValue($db->conn);
                 $attr = $caract_value->read_by_id($id);
-                $row["attributes"] = $attr;
+                $result[$key]["attributes"] = $attr;
             }
         }
 
@@ -35,12 +34,49 @@ class HandlerModel extends Handler
         return $result;
     }
 
-    protected function create()
+    protected function create(): array
     {
-        //$result = parent::create();
+        $result = parent::create();
 
-        var_dump($_POST);
+        $db = new Database();
+        $caract_value = new CaractValue($db->conn);
 
-        return [];
+        foreach ($_POST["caractValue"] as $key => $value) {
+            $caract_value->create([
+                "caractName" => $key,
+                "caractValue" => $value,
+                "idModel" => $result["id"]
+            ]);
+        }
+
+        return ["saaaaah"];
+    }
+
+    protected function update(): array
+    {
+        $result = parent::update();
+
+        if (array_key_exists("caractValue", $_POST)) {
+            $db = new Database();
+            $caract_value = new CaractValue($db->conn);
+
+            foreach ($_POST["caractValue"] as $key => $value) {
+                $res = $caract_value->read_id_by_name($_POST["id"], $key);
+                if (count($res) == 0) {
+                    echo json_encode(array("errors" => [
+                            $key." not found !"
+                        ])
+                    );
+                    exit();
+                }
+
+                $caract_value->update([
+                    "id" => $res[0]["idCaract"],
+                    $key => $value
+                ]);
+            }
+        }
+
+        return ["saaaaah"];
     }
 }
