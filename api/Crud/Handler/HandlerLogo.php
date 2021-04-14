@@ -10,7 +10,7 @@ class HandlerLogo extends Handler
         $this->filename = $filename;
     }
 
-    protected function create()
+    protected function create(): array
     {
         if (!array_key_exists("logo", $_FILES)) {
             echo json_encode(array("errors" => [
@@ -27,6 +27,8 @@ class HandlerLogo extends Handler
         $_POST["logo"] = $path;
 
         parent::create();
+
+        return [];
     }
 
     protected function update()

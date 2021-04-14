@@ -1,5 +1,7 @@
 <?php
 
+require_once "api/Crud/Handler/HandlerImage.php";
+
 class HandlerModel extends HandlerImage
 {
     protected function readAll(array $pathArr): array

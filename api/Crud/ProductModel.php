@@ -2,8 +2,8 @@
 
 class ProductModel extends CrudClass implements CrudInterface
 {
-    protected $name = "product_model";
-    protected $key = "idModel";
+    public $name = "product_model";
+    public $key = "idModel";
     protected $attributes = [
         "idModel",
         "modelName",

@@ -37,9 +37,8 @@ require_once "api/Router/Router.php";
 // Accept form-data OR json
 if (count($_POST) == 0 && count($_FILES) == 0) {
     $json = file_get_contents("php://input");
-    $data = json_decode($json, TRUE);
-    $_POST = $data;
-}
+    $_POST = json_decode($json, TRUE);
+} elseif (array_key_exists("request", $_POST)) $_POST = json_decode($_POST["request"], TRUE);
 
 header("Content-Type: application/json");
 

@@ -113,7 +113,8 @@ class Handler
 
     protected function update()
     {
-        return $this->object->update($_POST);
+        $this->object->update($_POST);
+        return [];
     }
 
     protected function delete()

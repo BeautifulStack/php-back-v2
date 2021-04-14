@@ -69,7 +69,7 @@ class HandlerImage extends Handler
             ]);
         }
 
-        return [];
+        return $result;
     }
 
     protected function update(): array
