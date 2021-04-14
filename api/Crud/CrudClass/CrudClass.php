@@ -55,7 +55,7 @@ class CrudClass
             return array_keys($this->attributes);
         }
 
-        if (count($args) != $len) {
+        if (count($args) < $len) {
             $response["errors"][] = "Not enough valid arguments provided";
 
             // Return error
@@ -72,7 +72,7 @@ class CrudClass
 
         // check if attributes selection is correct
         foreach ($args as $arg) {
-            if (!in_array($arg, $this->attributes)){
+            if (!in_array($arg, $this->attributes) && $arg != "caractValue"){
                 // Attributes selection error
                 $response["errors"][] = "'".$arg."'not found in ".$this->name." attributes";
             }
@@ -135,6 +135,8 @@ class CrudClass
     {
         $id = $args["id"];
         unset($args["id"]);
+
+        if (count($args) == 0) return;
 
         $this->check_attributes_update(array_keys($args));
 

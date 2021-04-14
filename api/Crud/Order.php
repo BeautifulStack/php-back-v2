@@ -12,8 +12,7 @@ class Order extends CrudClass implements CrudInterface
         "deliveryStatus",
         "isPaid",
         "orderDate",
-        "idCart",
-        "billPath"
+        "idCart"
     ];
     protected $foreignKey = [
         "idCart" => ["cart", "idUser"]
@@ -23,15 +22,17 @@ class Order extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO `order`(totalPrice, addressDest, deliveryMode, deliveryStatus, isPaid, idCart, billPath) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $query = $this->conn->prepare("INSERT INTO `order`(totalPrice, addressDest, deliveryMode, deliveryStatus, isPaid, idCart) VALUES (?, ?, ?, ?, ?, ?)");
         $query->execute([
             $args["totalPrice"],
             $args["addressDest"],
             $args["deliveryMode"],
             $args["deliveryStatus"],
             $args["isPaid"],
-            $args["idCart"],
-            $args["billPath"]
+            $args["idCart"]
         ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

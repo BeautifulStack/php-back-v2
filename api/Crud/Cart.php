@@ -20,5 +20,8 @@ class Cart extends CrudClass implements CrudInterface
         $query->execute([
             $args["idUser"]
         ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

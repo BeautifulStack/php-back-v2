@@ -26,5 +26,8 @@ class Promotion extends CrudClass implements CrudInterface
             $args["dateEnd"],
             $args["idUser"]
         ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -24,5 +24,8 @@ class Project extends CrudClass implements CrudInterface
             $args["description"],
             $args["idAssociation"]
         ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

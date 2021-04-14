@@ -2,8 +2,8 @@
 
 class Offer extends CrudClass implements CrudInterface
 {
-    protected $name = "offer";
-    protected $key = "idOffer";
+    public $name = "offer";
+    public $key = "idOffer";
     protected $attributes = [
         "idOffer",
         "dateOffer",
@@ -22,7 +22,9 @@ class Offer extends CrudClass implements CrudInterface
 
     public function create(array $args)
     {
-        $args = $this->check_attributes_create($args, count($this->attributes)-1);
+        $args = $this->check_attributes_create($args, count($this->attributes)-3);
+
+        if (!array_key_exists("counterOffer", $args)) $args["counterOffer"] = NULL;
 
         $query = $this->conn->prepare("INSERT INTO offer(price, conditionOffer, isAccepted, idModel, counterOffer, idUser) VALUES (?, ?, ?, ?, ?, ?)");
         $query->execute([
@@ -33,5 +35,8 @@ class Offer extends CrudClass implements CrudInterface
             $args["counterOffer"],
             $args["idUser"]
         ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

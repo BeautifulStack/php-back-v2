@@ -2,12 +2,6 @@
 
 class Router
 {
-    private $posts;
-
-    public function __construct(array $posts)
-    {
-        $this->posts = $posts;
-    }
 
     public function route(string $path)
     {
@@ -27,92 +21,92 @@ class Router
             case "Association":
                 $db = new Database();
                 $object = new Association($db->conn);
-                //$handler = new Handler($this->posts, $object);
-                //$handler->route($pathArr);
+                $handler = new HandlerLogo($object, "name");
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Brand":
                 $db = new Database();
                 $brand = new Brand($db->conn);
-                //$handler = new BrandHandler($this->posts, $this->files, $brand);
-                //$handler->route($pathArr);
+                $handler = new HandlerLogo($brand, "brandName");
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Cart":
                 $db = new Database();
                 $object = new Cart($db->conn);
-                $handler = new Handler($this->posts, $object);
-                $handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Category":
                 $db = new Database();
                 $object = new Category($db->conn);
-                $handler = new Handler($this->posts, $object);
-                $handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Offer":
                 $db = new Database();
                 $object = new Offer($db->conn);
-                $handler = new Handler($this->posts, $object);
-                $handler->route($pathArr);
+                $handler = new HandlerImage($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Order":
                 $db = new Database();
                 $object = new Order($db->conn);
-                //$handler = new Handler($this->posts, $object);
-                //$handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Product":
                 $db = new Database();
                 $object = new Product($db->conn);
-                //$handler = new Handler($this->posts, $object);
-                //$handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "ProductModel":
                 $db = new Database();
                 $object = new ProductModel($db->conn);
-                //$handler = new Handler($this->posts, $object);
-                //$handler->route($pathArr);
+                $handler = new HandlerModel($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Project":
                 $db = new Database();
                 $object = new Project($db->conn);
-                $handler = new Handler($this->posts, $object);
-                $handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Promotion":
                 $db = new Database();
                 $object = new Promotion($db->conn);
-                $handler = new Handler($this->posts, $object);
-                $handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Transfer":
                 $db = new Database();
                 $object = new Transfer($db->conn);
-                $handler = new Handler($this->posts, $object);
-                $handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "User":
                 $db = new Database();
                 $object = new User($db->conn);
-                $handler = new Handler($this->posts, $object);
-                $handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "Warehouse":
                 $db = new Database();
                 $object = new Warehouse($db->conn);
-                $handler = new Handler($this->posts, $object);
-                $handler->route($pathArr);
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             default:

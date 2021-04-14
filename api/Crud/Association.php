@@ -2,7 +2,7 @@
 
 class Association extends CrudClass implements CrudInterface
 {
-    protected $name = "association";
+    public $name = "association";
     protected $key = "idAssociation";
     protected $attributes = [
         "idAssociation",
@@ -21,5 +21,8 @@ class Association extends CrudClass implements CrudInterface
             $args["description"],
             $args["logo"]
         ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

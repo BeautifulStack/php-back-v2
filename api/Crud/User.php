@@ -30,6 +30,9 @@ class User extends CrudClass implements CrudInterface
             $args["phoneNumber"],
             $args["isValidated"],
             $args["isAdmin"]
-            ]);
+        ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

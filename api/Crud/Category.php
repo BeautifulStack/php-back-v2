@@ -17,5 +17,8 @@ class Category extends CrudClass implements CrudInterface
         $query->execute([
             $args["categoryName"]
         ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }
