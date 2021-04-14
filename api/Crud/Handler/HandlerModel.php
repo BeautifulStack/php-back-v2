@@ -1,6 +1,6 @@
 <?php
 
-class HandlerModel extends Handler
+class HandlerModel extends HandlerImage
 {
     protected function readAll(array $pathArr): array
     {
@@ -85,9 +85,8 @@ class HandlerModel extends Handler
         return [];
     }
 
-    protected function delete()
+    protected function delete(): array
     {
-
-        parent::delete();
+        return parent::delete();
     }
 }

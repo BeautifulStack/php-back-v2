@@ -63,8 +63,8 @@ class Router
             case "Product":
                 $db = new Database();
                 $object = new Product($db->conn);
-                //$handler = new Handler($this->posts, $object);
-                //echo json_encode($handler->route($pathArr));
+                $handler = new Handler($object);
+                echo json_encode($handler->route($pathArr));
                 break;
 
             case "ProductModel":
