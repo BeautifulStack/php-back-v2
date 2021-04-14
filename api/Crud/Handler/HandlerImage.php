@@ -14,7 +14,7 @@ class HandlerImage extends Handler
                 $db = new Database();
                 $image = new Image($db->conn);
                 $attr = $image->read_by_id($id, $this->object->key);
-                $result[$key]["images"] = $attr;
+                $result[$key]["images"] = array_map("current", $attr);
             }
         }
 
@@ -30,7 +30,7 @@ class HandlerImage extends Handler
             $db = new Database();
             $image = new Image($db->conn);
             $attr = $image->read_by_id($id, $this->object->key);
-            $result[0]["images"] = $attr;
+            $result[0]["images"] = array_map("current", $attr);
         }
 
         return $result;
@@ -72,9 +72,55 @@ class HandlerImage extends Handler
         return [];
     }
 
-    protected function update()
+    protected function update(): array
     {
 
-        return parent::update();
+        if (count($_FILES) > 0) {
+            if (count($_FILES) > 3) {
+                echo json_encode(array("errors" => [
+                        "Maximum files allowed is 3 !"
+                    ])
+                );
+                exit();
+            }
+
+            $db = new Database();
+            $image = new Image($db->conn);
+
+            $res = $image->read_by_id($_POST["id"], $this->object->key);
+            $res = array_map("current", $res);
+            foreach ($res as $row) {
+                unlink($row);
+            }
+            $image->delete_by_id($_POST["id"], $this->object->key);
+
+            foreach ($_FILES as $key => $value) {
+                $path = "data/".$this->object->name."/".md5(rand());
+                $path = $this->upload_file($path, $key);
+
+                $image->create([
+                    "key" => $this->object->key,
+                    "path" => $path,
+                    "idRefer" => $_POST["id"]
+                ]);
+            }
+        }
+
+        parent::update();
+
+        return [];
+    }
+
+    protected function delete(): array
+    {
+        $db = new Database();
+        $image = new Image($db->conn);
+
+        $res = $image->read_by_id($_POST["id"], $this->object->key);
+        $res = array_map("current", $res);
+        foreach ($res as $row) {
+            unlink($row);
+        }
+        return parent::delete();
     }
 }

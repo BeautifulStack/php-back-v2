@@ -84,4 +84,10 @@ class HandlerModel extends Handler
 
         return [];
     }
+
+    protected function delete()
+    {
+
+        parent::delete();
+    }
 }

@@ -39,4 +39,10 @@ class Image extends CrudClass implements CrudInterface
 
         return $query->fetchAll(PDO::FETCH_NUM);
     }
+
+    public function delete_by_id($id, $key)
+    {
+        $query = $this->conn->prepare("DELETE FROM image WHERE ".$key." = ?");
+        $query->execute([$id]);
+    }
 }
