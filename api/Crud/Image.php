@@ -7,27 +7,36 @@ class Image extends CrudClass implements CrudInterface
     protected $attributes = [
         "idImage",
         "path",
-        "idRefer"
-    ];
-    protected $foreignKey = [
-        "idProduct" => ["product", "idProduct"]
+        "idModel",
+        "idOffer"
     ];
 
-    public function __construct(PDO $db, string $fileType)
+    public function __construct(PDO $db)
     {
         parent::__construct($db);
-        $this->fileType = $fileType;
     }
 
     public function create(array $args)
     {
-        $args = $this->check_attributes_create($args, count($this->attributes)-1);
+        $id = $args["key"];
+        unset($args["key"]);
 
-        $query = $this->conn->prepare("INSERT INTO image(path, idRefer) VALUES (?, ?); SELECT LAST_INSERT_ID() as id;");
+        $args = $this->check_attributes_create($args, count($this->attributes)-2);
+
+
+        $query = $this->conn->prepare("INSERT INTO image(path, ".$id.") VALUES (?, ?)");
         $query->execute([
             $args["path"],
             $args["idRefer"]
         ]);
         //return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function read_by_id($id, $key): array
+    {
+        $query = $this->conn->prepare("SELECT path FROM image WHERE ".$key." = ?");
+        $query->execute([$id]);
+
+        return $query->fetchAll(PDO::FETCH_NUM);
     }
 }

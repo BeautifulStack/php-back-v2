@@ -49,7 +49,7 @@ class Router
             case "Offer":
                 $db = new Database();
                 $object = new Offer($db->conn);
-                $handler = new Handler($object);
+                $handler = new HandlerImage($object);
                 echo json_encode($handler->route($pathArr));
                 break;
 

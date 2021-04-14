@@ -1,4 +1,5 @@
 <?php
+//session_start();
 
 // Connect to db, need config.php
 require_once "config/config.php";
@@ -28,12 +29,13 @@ require_once "api/Crud/Warehouse.php";
 require_once "api/Crud/Handler/Handler.php";
 require_once "api/Crud/Handler/HandlerLogo.php";
 require_once "api/Crud/Handler/HandlerModel.php";
+require_once "api/Crud/Handler/HandlerImage.php";
 
 // Route request to right object
 require_once "api/Router/Router.php";
 
 // Accept form-data OR json
-if (count($_POST) == 0) {
+if (count($_POST) == 0 && count($_FILES) == 0) {
     $json = file_get_contents("php://input");
     $data = json_decode($json, TRUE);
     $_POST = $data;
