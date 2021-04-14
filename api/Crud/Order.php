@@ -22,7 +22,7 @@ class Order extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO `order`(totalPrice, addressDest, deliveryMode, deliveryStatus, isPaid, idCart) VALUES (?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() as id;");
+        $query = $this->conn->prepare("INSERT INTO `order`(totalPrice, addressDest, deliveryMode, deliveryStatus, isPaid, idCart) VALUES (?, ?, ?, ?, ?, ?)");
         $query->execute([
             $args["totalPrice"],
             $args["addressDest"],
@@ -31,6 +31,8 @@ class Order extends CrudClass implements CrudInterface
             $args["isPaid"],
             $args["idCart"]
         ]);
-        //return $query->fetch(PDO::FETCH_ASSOC);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

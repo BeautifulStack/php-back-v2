@@ -14,11 +14,13 @@ class Brand extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO brand(brandName, logo) VALUES (?, ?); SELECT LAST_INSERT_ID() as id;");
+        $query = $this->conn->prepare("INSERT INTO brand(brandName, logo) VALUES (?, ?)");
         $query->execute([
             $args["brandName"],
             $args["logo"]
         ]);
-        //return $query->fetchAll();
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

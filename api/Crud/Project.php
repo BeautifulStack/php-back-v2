@@ -18,12 +18,14 @@ class Project extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-1);
 
-        $query = $this->conn->prepare("INSERT INTO project(name, description, idAssociation) VALUES (?, ?, ?); SELECT LAST_INSERT_ID() as id;");
+        $query = $this->conn->prepare("INSERT INTO project(name, description, idAssociation) VALUES (?, ?, ?)");
         $query->execute([
             $args["name"],
             $args["description"],
             $args["idAssociation"]
         ]);
-        //return $query->fetch(PDO::FETCH_ASSOC);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

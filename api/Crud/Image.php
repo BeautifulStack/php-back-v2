@@ -29,7 +29,9 @@ class Image extends CrudClass implements CrudInterface
             $args["path"],
             $args["idRefer"]
         ]);
-        //return $query->fetch(PDO::FETCH_ASSOC);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 
     public function read_by_id($id, $key): array

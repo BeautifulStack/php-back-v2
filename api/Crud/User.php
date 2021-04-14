@@ -21,7 +21,7 @@ class User extends CrudClass implements CrudInterface
     {
         $args = $this->check_attributes_create($args, count($this->attributes)-3);
 
-        $query = $this->conn->prepare("INSERT INTO user(firstName, lastName, password, email, phoneNumber, isValidated, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() as id;");
+        $query = $this->conn->prepare("INSERT INTO user(firstName, lastName, password, email, phoneNumber, isValidated, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $query->execute([
             $args["firstName"],
             $args["lastName"],
@@ -30,7 +30,9 @@ class User extends CrudClass implements CrudInterface
             $args["phoneNumber"],
             $args["isValidated"],
             $args["isAdmin"]
-            ]);
-        //return $query->fetch(PDO::FETCH_ASSOC);
+        ]);
+
+        $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }
