@@ -106,9 +106,10 @@ class Handler
         return $result;
     }
 
-    protected function create()
+    protected function create(): array
     {
-         return $this->object->create($_POST);
+        return $this->object->create($_POST);
+        //TODO: Return id for everybody !
     }
 
     protected function update()

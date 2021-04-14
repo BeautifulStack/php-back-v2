@@ -26,9 +26,7 @@ class HandlerLogo extends Handler
 
         $_POST["logo"] = $path;
 
-        parent::create();
-
-        return [];
+        return parent::create();
     }
 
     protected function update()
@@ -53,6 +51,8 @@ class HandlerLogo extends Handler
         }
 
         parent::update();
+
+        return [];
     }
 
     protected function delete()
@@ -67,5 +67,7 @@ class HandlerLogo extends Handler
 
         $this->delete_file($_POST["id"], "logo");
         parent::delete();
+
+        return [];
     }
 }
