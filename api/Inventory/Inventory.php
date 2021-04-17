@@ -15,13 +15,13 @@ class Inventory
             return 1;
         }
 
-
         $today = date("Y-m-d");
 
         $product = new Product($db->conn);
-        $result = $product->read_import_by_date_and_warehouse($today, $pathArr[1]);
+        $imports = $product->read_import_by_date_and_warehouse($today, $pathArr[1]);
+        $exports = $product->read_export_by_date_and_warehouse($today, $pathArr[1]);
 
-        if (count($result) == 0) {
+        if (count($imports) == 0 && count($exports) == 0) {
             return 0;
         }
 
@@ -33,20 +33,33 @@ class Inventory
         $writer->setIndent(4);
 
         $writer->startElement("products");
-        $writer->startElement("imports");
-        foreach ($result as $value) {
-            $writer->startElement("products");
-            $writer->writeElement('id', $value["idProduct"]);
-            $writer->writeElement('id', $value["conditionProduct"]);
-            $writer->writeElement('id', $value["modelName"]);
-            $writer->writeElement('id', $value["location"]);
-            $writer->writeElement('id', $value["idOffer"]);
-            $writer->endElement();
+        if (count($imports) != 0) {
+            $writer->startElement("imports");
+            foreach ($imports as $value) {
+                $writer->startElement("products");
+                $writer->writeElement('id', $value["idProduct"]);
+                $writer->writeElement('id', $value["conditionProduct"]);
+                $writer->writeElement('id', $value["modelName"]);
+                $writer->writeElement('id', $value["location"]);
+                $writer->writeElement('id', $value["idOffer"]);
+                $writer->endElement();
+            }
+            $writer->endElement(); // end imports
         }
-        $writer->endElement(); // end imports
 
-        $writer->startElement("exports");
-        $writer->endElement(); // end exports
+        if (count($exports) != 0) {
+            $writer->startElement("exports");
+            foreach ($exports as $value) {
+                $writer->startElement("products");
+                $writer->writeElement('id', $value["idProduct"]);
+                $writer->writeElement('id', $value["conditionProduct"]);
+                $writer->writeElement('id', $value["modelName"]);
+                $writer->writeElement('id', $value["location"]);
+                $writer->writeElement('id', $value["idOrder"]);
+                $writer->endElement();
+            }
+            $writer->endElement(); // end exports
+        }
 
         $writer->endElement(); // end products
 

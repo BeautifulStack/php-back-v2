@@ -49,4 +49,16 @@ class Product extends CrudClass implements CrudInterface
         $query->execute([$day, $id]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function read_export_by_date_and_warehouse($day, $id): array
+    {
+        $query = $this->conn->prepare("SELECT idProduct,conditionProduct,product_model.modelName,warehouse.location,idOrder
+                                    FROM product
+                                    INNER JOIN product_model ON product.idModel = product_model.idModel
+                                    INNER JOIN warehouse ON product.idWarehouse = warehouse.idWarehouse
+                                    INNER JOIN `order` on product.idCart = `order`.idCart
+                                    WHERE DATE(orderDate) = ? AND product.idWarehouse = ?");
+        $query->execute([$day, $id]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
