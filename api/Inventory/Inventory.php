@@ -36,12 +36,11 @@ class Inventory
         if (count($imports) != 0) {
             $writer->startElement("imports");
             foreach ($imports as $value) {
+
                 $writer->startElement("products");
-                $writer->writeElement('id', $value["idProduct"]);
-                $writer->writeElement('id', $value["conditionProduct"]);
-                $writer->writeElement('id', $value["modelName"]);
-                $writer->writeElement('id', $value["location"]);
-                $writer->writeElement('id', $value["idOffer"]);
+                foreach ($value as $key => $value2) {
+                    $writer->writeElement($key, $value2);
+                }
                 $writer->endElement();
             }
             $writer->endElement(); // end imports
@@ -50,12 +49,11 @@ class Inventory
         if (count($exports) != 0) {
             $writer->startElement("exports");
             foreach ($exports as $value) {
+
                 $writer->startElement("products");
-                $writer->writeElement('id', $value["idProduct"]);
-                $writer->writeElement('id', $value["conditionProduct"]);
-                $writer->writeElement('id', $value["modelName"]);
-                $writer->writeElement('id', $value["location"]);
-                $writer->writeElement('id', $value["idOrder"]);
+                foreach ($value as $key => $value2) {
+                    $writer->writeElement($key, $value2);
+                }
                 $writer->endElement();
             }
             $writer->endElement(); // end exports
@@ -63,6 +61,12 @@ class Inventory
 
         $writer->endElement(); // end products
 
-        return "";
+        $writer->endDocument();
+
+        $output = $writer->outputMemory();
+
+        $writer->flush();
+
+        return $output;
     }
 }
