@@ -37,7 +37,7 @@ class Inventory
             $writer->startElement("imports");
             foreach ($imports as $value) {
 
-                $writer->startElement("products");
+                $writer->startElement("product");
                 foreach ($value as $key => $value2) {
                     $writer->writeElement($key, $value2);
                 }
@@ -50,7 +50,7 @@ class Inventory
             $writer->startElement("exports");
             foreach ($exports as $value) {
 
-                $writer->startElement("products");
+                $writer->startElement("product");
                 foreach ($value as $key => $value2) {
                     $writer->writeElement($key, $value2);
                 }
