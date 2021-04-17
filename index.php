@@ -5,40 +5,40 @@
 require_once "config/config.php";
 
 // Connect to db, need config.php
-require_once "api/Database.php";
+require_once "src/Database.php";
 
 // CRUD Parent Class
-require_once "api/Crud/CrudClass/CrudInterface.php";
-require_once "api/Crud/CrudClass/CrudClass.php";
+require_once "src/Crud/CrudClass/CrudInterface.php";
+require_once "src/Crud/CrudClass/CrudClass.php";
 
 // CRUD Classes
-require_once "api/Crud/Association.php";
-require_once "api/Crud/Brand.php";
-require_once "api/Crud/CaractValue.php";
-require_once "api/Crud/Cart.php";
-require_once "api/Crud/Category.php";
-require_once "api/Crud/Image.php";
-require_once "api/Crud/Offer.php";
-require_once "api/Crud/Order.php";
-require_once "api/Crud/Product.php";
-require_once "api/Crud/ProductModel.php";
-require_once "api/Crud/Project.php";
-require_once "api/Crud/Promotion.php";
-require_once "api/Crud/Transfer.php";
-require_once "api/Crud/User.php";
-require_once "api/Crud/Warehouse.php";
+require_once "src/Crud/Association.php";
+require_once "src/Crud/Brand.php";
+require_once "src/Crud/CaractValue.php";
+require_once "src/Crud/Cart.php";
+require_once "src/Crud/Category.php";
+require_once "src/Crud/Image.php";
+require_once "src/Crud/Offer.php";
+require_once "src/Crud/Order.php";
+require_once "src/Crud/Product.php";
+require_once "src/Crud/ProductModel.php";
+require_once "src/Crud/Project.php";
+require_once "src/Crud/Promotion.php";
+require_once "src/Crud/Transfer.php";
+require_once "src/Crud/User.php";
+require_once "src/Crud/Warehouse.php";
 
 // Handle request
-require_once "api/Crud/Handler/Handler.php";
-require_once "api/Crud/Handler/HandlerLogo.php";
-require_once "api/Crud/Handler/HandlerModel.php";
-require_once "api/Crud/Handler/HandlerImage.php";
+require_once "src/Crud/Handler/Handler.php";
+require_once "src/Crud/Handler/HandlerLogo.php";
+require_once "src/Crud/Handler/HandlerModel.php";
+require_once "src/Crud/Handler/HandlerImage.php";
 
 // Route request to right object
-require_once "api/Router/Router.php";
+require_once "src/Router.php";
 
 // Inventory for the C application
-require_once "api/Inventory/Inventory.php";
+require_once "src/Inventory/Inventory.php";
 
 // Allow requests from outside domain
 header("Access-Control-Allow-Origin: *");

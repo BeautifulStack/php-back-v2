@@ -1,6 +1,6 @@
 <?php
 
-require_once "api/Crud/Handler/HandlerImage.php";
+require_once "src/Crud/Handler/HandlerImage.php";
 
 class HandlerModel extends HandlerImage
 {
