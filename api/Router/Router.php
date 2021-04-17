@@ -109,6 +109,10 @@ class Router
                 echo json_encode($handler->route($pathArr));
                 break;
 
+            case "Inventory":
+                echo Inventory::handle_daily($pathArr);
+                break;
+
             default:
                 echo json_encode(array("errors" => [
                         "None or invalid path indicated !"

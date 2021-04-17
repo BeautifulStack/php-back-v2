@@ -34,6 +34,9 @@ require_once "api/Crud/Handler/HandlerImage.php";
 // Route request to right object
 require_once "api/Router/Router.php";
 
+// Inventory for the C application
+require_once "api/Inventory/Inventory.php";
+
 // Accept form-data OR json
 if (count($_POST) == 0 && count($_FILES) == 0) {
     $json = file_get_contents("php://input");
