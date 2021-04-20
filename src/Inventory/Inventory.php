@@ -1,10 +1,9 @@
 <?php
 
-// 0: No result -> Do nothing
-// 1: Invalid warehouse id -> exit with error
-
 class Inventory
 {
+    // 0: No result -> Do nothing
+    // 1: Invalid warehouse id -> exit with error
     public static function handle_daily($pathArr)
     {
         // Check if valid id warehouse
@@ -68,5 +67,27 @@ class Inventory
         $writer->flush();
 
         return $output;
+    }
+
+    // 0: we're good
+    // 1: file not found
+    // 2: not a valid file
+    public static function upload_inventory(): int
+    {
+        if (!array_key_exists("sendfile", $_FILES)) {
+            return 1;
+        }
+
+        if ($_FILES["sendfile"]["type"] != "application/xml") return 2;
+
+        $path = "data/inventory";
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777);
+        }
+
+        move_uploaded_file($_FILES["sendfile"]["tmp_name"], $path."/".$_FILES["sendfile"]["name"]);
+
+        return 0;
     }
 }
