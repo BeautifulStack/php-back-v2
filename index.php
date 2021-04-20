@@ -52,7 +52,20 @@ header("Content-Type: application/json");
 if (count($_POST) == 0 && count($_FILES) == 0) {
     $json = file_get_contents("php://input");
     $_POST = json_decode($json, TRUE);
-} elseif (array_key_exists("request", $_POST)) $_POST = json_decode($_POST["request"], TRUE);
+} elseif (array_key_exists("request", $_POST)) {
+    $json_decoded = json_decode($_POST["request"], TRUE);
+
+    if ($json_decoded === NULL) {
+        echo json_encode(array("errors" => [
+            "Json is not properly encoded"
+            ])
+        );
+        exit();
+    }
+        
+    $_POST = $json_decoded;
+
+} 
 
 $router = new Router();
 
