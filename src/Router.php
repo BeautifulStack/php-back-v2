@@ -113,6 +113,13 @@ class Router
                 echo Inventory::handle_daily($pathArr);
                 break;
 
+            case "data":
+                $temp = explode('.', $path);
+                $extension = end($temp);
+                header("Content-Type: image/$extension");
+                echo file_get_contents($path);
+                break;
+
             default:
                 echo json_encode(array("errors" => [
                         "None or invalid path indicated !"
