@@ -110,7 +110,8 @@ class Router
                 break;
 
             case "Inventory":
-                echo Inventory::handle_daily($pathArr);
+                if ($pathArr[1] == "sendInventory") echo Inventory::upload_inventory();
+                else echo Inventory::handle_daily($pathArr);
                 break;
 
             default:
