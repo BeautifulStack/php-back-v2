@@ -22,7 +22,7 @@ class Product extends CrudClass implements CrudInterface
 
     public function create(array $args)
     {
-        $args = $this->check_attributes_create($args, count($this->attributes)-3);
+        $args = $this->check_attributes_create($args, $this->attributes, $this->key, ["date", "idCart"]);
 
         $query = $this->conn->prepare("INSERT INTO product(disponibility, conditionProduct, isDelivered, idModel, idWarehouse, idOffer) VALUES (?, ?, ?, ?, ?, ?)");
         $query->execute([

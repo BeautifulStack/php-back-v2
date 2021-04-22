@@ -47,20 +47,23 @@ class CrudClass
     ///
     /// return errors if invalid
     /// if empty return all attributes
-    protected function check_attributes_create(array $args, int $len): array
+    protected function check_attributes_create(array $args, array $classArgs, string $id, array $ignoreFields = array()): array
     {
         $response = [];
 
-        if (empty($args)) {
-            return array_keys($this->attributes);
+        foreach ($classArgs as $key){
+            if (!array_key_exists($key, $args) && $key !== $id && !in_array($key, $ignoreFields))
+                $response["errors"][] = "Missing $key in body";
         }
-
-        if (count($args) < $len) {
-            $response["errors"][] = "Not enough valid arguments provided";
-
-            // Return error
+        
+        // Return error
+        if (!empty($response)) {
             echo json_encode($response);
             exit();
+        }
+
+        if (empty($args)) {
+            return array_keys($this->attributes);
         }
 
         return $args;
