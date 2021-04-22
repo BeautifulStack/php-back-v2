@@ -34,6 +34,8 @@ class Inventory
         $writer->startElement("products");
         if (count($imports) != 0) {
             $writer->startElement("imports");
+            $writer->writeAttribute("id", $pathArr[1]);
+            $writer->writeAttribute("date", $today);
             foreach ($imports as $value) {
 
                 $writer->startElement("product");
@@ -47,6 +49,8 @@ class Inventory
 
         if (count($exports) != 0) {
             $writer->startElement("exports");
+            $writer->writeAttribute("id", $pathArr[1]);
+            $writer->writeAttribute("date", $today);
             foreach ($exports as $value) {
 
                 $writer->startElement("product");
