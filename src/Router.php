@@ -117,6 +117,7 @@ class Router
             case "data":
                 $temp = explode('.', $path);
                 $extension = end($temp);
+                if ($extension == "jpg") $extension = "jpeg";
                 header("Content-Type: image/$extension");
                 echo file_get_contents($path);
                 break;
