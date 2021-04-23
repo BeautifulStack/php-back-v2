@@ -11,7 +11,7 @@ class Category extends CrudClass implements CrudInterface
 
     public function create(array $args)
     {
-        $args = $this->check_attributes_create($args, count($this->attributes)-1);
+        $args = $this->check_attributes_create($args, $this->attributes, $this->key);
 
         $query = $this->conn->prepare("INSERT INTO category(categoryName) VALUES (?)");
         $query->execute([

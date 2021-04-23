@@ -22,7 +22,7 @@ class Offer extends CrudClass implements CrudInterface
 
     public function create(array $args)
     {
-        $args = $this->check_attributes_create($args, count($this->attributes)-3);
+        $args = $this->check_attributes_create($args, $this->attributes, $this->key, ["dateOffer", "counterOffer"]);
 
         if (!array_key_exists("counterOffer", $args)) $args["counterOffer"] = NULL;
 

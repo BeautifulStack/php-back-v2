@@ -19,7 +19,7 @@ class User extends CrudClass implements CrudInterface
 
     public function create(array $args)
     {
-        $args = $this->check_attributes_create($args, count($this->attributes)-3);
+        $args = $this->check_attributes_create($args, $this->attributes, $this->key, ["greenCoinsBalance", "inscriptionDate"]);
 
         $query = $this->conn->prepare("INSERT INTO user(firstName, lastName, password, email, phoneNumber, isValidated, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $query->execute([
