@@ -30,6 +30,7 @@ require_once "src/Crud/Warehouse.php";
 
 // Handle request
 require_once "src/Crud/Handler/Handler.php";
+require_once "src/Crud/Handler/HandlerUser.php";
 require_once "src/Crud/Handler/HandlerLogo.php";
 require_once "src/Crud/Handler/HandlerModel.php";
 require_once "src/Crud/Handler/HandlerImage.php";
