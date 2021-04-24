@@ -98,7 +98,7 @@ class Router
             case "User":
                 $db = new Database();
                 $object = new User($db->conn);
-                $handler = new Handler($object);
+                $handler = new HandlerUser($object);
                 echo json_encode($handler->route($pathArr));
                 break;
 
