@@ -95,10 +95,10 @@ class CrudClass
 
         foreach ($args as $arg) {
             if (array_key_exists($arg, $this->foreignKey)) {
-                array_push($select, $this->foreignKey[$arg][1]);
+                array_push($select, $this->foreignKey[$arg][0].".".$this->foreignKey[$arg][1]." AS ".$this->foreignKey[$arg][0].$this->foreignKey[$arg][1]);
                 array_push($join, "INNER JOIN ".$this->foreignKey[$arg][0]." ON ".$this->name.".".$arg." = ".$this->foreignKey[$arg][0].".".$arg);
             } else {
-                array_push($select, $arg);
+                array_push($select, $this->name.".".$arg);
             }
         }
 
