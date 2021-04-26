@@ -7,14 +7,13 @@ class Router
     {
         $pathArr = explode('/', $path);
 
-        if (empty($pathArr) || count($pathArr) < 2 || empty($pathArr[1])) {
+        if (empty($pathArr) || count($pathArr) == 1 || empty($pathArr[0])) {
             echo json_encode(array("errors" => [
                     "None or invalid path indicated !"
                 ])
             );
             exit;
         }
-
         // Deals with it handler
         switch ($pathArr[0]) {
 
@@ -120,6 +119,26 @@ class Router
                 if ($extension == "jpg") $extension = "jpeg";
                 header("Content-Type: image/$extension");
                 echo file_get_contents($path);
+                break;
+
+            case "login":
+                if (($id = HandlerUser::Login()) > -1) {
+                    echo json_encode(array("id" => [
+                        $id
+                    ]));
+                    exit();
+                }  else {
+                    echo json_encode(array("errors" => [
+                        "Error in credentials"
+                    ]));
+                    exit();
+                }
+
+            case "logout":
+                echo json_encode(array("status" => [
+                    "ok"
+                ]));
+                session_destroy();
                 break;
 
             default:

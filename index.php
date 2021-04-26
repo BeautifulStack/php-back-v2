@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 
 // Config file for db and data folder
 require_once "config/config.php";
