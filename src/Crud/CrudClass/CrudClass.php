@@ -134,6 +134,28 @@ class CrudClass
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function where(array $clauses): array
+    {
+
+        $this->check_attributes_update(array_keys($clauses));
+        $args = $this->check_attributes([]);
+        $query = $this->generate_query($args)." WHERE ";
+
+        $params = [];
+        $values = [];
+        foreach ($clauses as $key => $value) {
+            array_push($params, "$key = ?   ");
+            array_push($values, $value);
+        }
+
+        $query .= implode(" AND ", $params);
+
+        $query = $this->conn->prepare($query);
+        $query->execute($values);
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function update(array $args)
     {
         $id = $args["id"];
@@ -153,4 +175,5 @@ class CrudClass
     {
         $this->conn->query("DELETE FROM ".$this->name." WHERE ".$this->key." = ".$item);
     }
+
 }
