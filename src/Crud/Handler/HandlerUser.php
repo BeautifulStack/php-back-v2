@@ -30,14 +30,26 @@ class HandlerUser extends Handler
 
     protected function create(): array
     {
+        $email = $_POST['email'];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(array("errors" => [
+                    "Invalid email format !"
+                ])
+            );
+            exit();
+    }
+
         $result = $this->object->where(["email" => $_POST['email']]);
         if (count($result) != 0) {
             echo json_encode(array("errors" => [
-                    "User already exists !"
+                    "Email already exists !"
                 ])
             );
             exit();
         }
+
+
+
         $_POST["password"] = HandlerUser::encrypt($_POST["password"]);
         return $this->object->create($_POST);
     }
