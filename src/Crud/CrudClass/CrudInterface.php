@@ -26,6 +26,14 @@ interface CrudInterface
     public function read(array $args): array;
 
     /**
+     * Search object with where clause
+     *
+     *
+     * @param array $args
+     */
+    public function where(array $args);
+
+    /**
      * Create an item
      *
      * args is the list of attributes you want to fill

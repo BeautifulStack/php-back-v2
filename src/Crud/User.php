@@ -41,8 +41,4 @@ class User extends CrudClass implements CrudInterface
         $stmt->execute([$email]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
 }
-
-
-
