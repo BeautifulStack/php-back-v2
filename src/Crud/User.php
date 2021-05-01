@@ -35,5 +35,4 @@ class User extends CrudClass implements CrudInterface
         $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
         return $query->fetch(PDO::FETCH_ASSOC);
     }
-
 }
