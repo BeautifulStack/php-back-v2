@@ -35,10 +35,4 @@ class User extends CrudClass implements CrudInterface
         $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
         return $query->fetch(PDO::FETCH_ASSOC);
     }
-
-    public function read_by_email($email) {
-        $stmt = $this->conn->prepare("SELECT * FROM user WHERE email = ? ");
-        $stmt->execute([$email]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 }

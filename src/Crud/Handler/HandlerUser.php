@@ -30,7 +30,7 @@ class HandlerUser extends Handler
 
     protected function create(): array
     {
-        $result = $this->object->read_by_email($_POST['email']);
+        $result = $this->object->where(["email" => $_POST['email']]);
         if (count($result) != 0) {
             echo json_encode(array("errors" => [
                     "User already exists !"
@@ -38,8 +38,7 @@ class HandlerUser extends Handler
             );
             exit();
         }
-      
-        $_POST["password"] = $this->encrypt($_POST["password"]);
+        $_POST["password"] = HandlerUser::encrypt($_POST["password"]);
         return $this->object->create($_POST);
     }
 
