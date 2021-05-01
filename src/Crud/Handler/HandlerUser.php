@@ -5,7 +5,7 @@ class HandlerUser extends Handler
     protected function readAll(array $pathArr): array
     {
         $result = parent::readAll($pathArr);
-       
+
         $retrunValue = [];
         foreach ($result as $row) {
             unset($row['password']);
@@ -30,9 +30,18 @@ class HandlerUser extends Handler
 
     protected function create(): array
     {
-        $_POST["password"] = $this->encrypt($_POST["password"]);
+        $result = $this->object->read_by_email($_POST['email']);
+        if (count($result) != 0) {
+            echo json_encode(array("errors" => [
+                    "User already exists !"
+                ])
+            );
+            exit();
+        }
 
+        $_POST["password"] = $this->encrypt($_POST["password"]);
         return $this->object->create($_POST);
+
     }
 
     private function encrypt(string $password): string
@@ -46,3 +55,4 @@ class HandlerUser extends Handler
         return $password;
     }
 }
+
