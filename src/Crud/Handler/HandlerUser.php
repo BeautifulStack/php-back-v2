@@ -6,24 +6,16 @@ class HandlerUser extends Handler
     {
         $result = parent::readAll($pathArr);
 
-        $retrunValue = [];
-        foreach ($result as $row) {
-            unset($row['password']);
-            $retrunValue[] = $row;
-        }
+        $result = $this->filterPassword($result);
 
-        return $retrunValue;
+        return $result;
     }
 
     protected function read(array $pathArr)
     {
         $result = parent::read($pathArr);
 
-        $retrunValue = [];
-        foreach ($result as $row) {
-            if (isset($row['password'])) unset($row['password']);
-            $retrunValue[] = $row;
-        }
+        $result = $this->filterPassword($result);
 
         return $result;
     }
@@ -95,5 +87,15 @@ class HandlerUser extends Handler
             
         }
         return -1;
+    }
+
+    static function filterPassword(array $args = []): array
+    {
+        $retrunValue = [];
+        foreach ($args as $row) {
+            if (isset($row['password'])) unset($row['password']);
+            $retrunValue[] = $row;
+        }
+        return $retrunValue;
     }
 }
