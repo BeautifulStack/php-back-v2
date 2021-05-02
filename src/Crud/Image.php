@@ -21,7 +21,7 @@ class Image extends CrudClass implements CrudInterface
         $id = $args["key"];
         unset($args["key"]);
 
-        $args = $this->check_attributes_create($args, $this->attributes, $this->key, ["idModel"]);
+        $args = $this->check_attributes_create($args, $this->attributes, $this->key, ["idModel", "idOffer"]);
 
 
         $query = $this->conn->prepare("INSERT INTO image(path, ".$id.") VALUES (?, ?)");
