@@ -51,7 +51,7 @@ class HandlerModel extends HandlerImage
             ]);
         }
 
-        return ["saaaaah"];
+        return [];
     }
 
     protected function update(): array
