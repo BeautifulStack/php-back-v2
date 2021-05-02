@@ -51,7 +51,7 @@ class HandlerModel extends HandlerImage
             ]);
         }
 
-        return [];
+        return $result;
     }
 
     protected function update(): array
