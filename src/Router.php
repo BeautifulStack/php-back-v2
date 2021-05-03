@@ -34,7 +34,7 @@ class Router
             case "Cart":
                 $db = new Database();
                 $object = new Cart($db->conn);
-                $handler = new Handler($object);
+                $handler = new HandlerCart($object);
                 echo json_encode($handler->route($pathArr));
                 break;
 
@@ -127,22 +127,6 @@ class Router
                     $object = new User($db->conn);
                     echo json_encode(array("infos" => 
                         HandlerUser::filterPassword($object->where(["idUser" => $_SESSION["id"]]))[0]
-                     ));
-                     exit();
-                } else {
-                    echo json_encode(array("errors" => [
-                       "Please Login Before"
-                    ]));
-                    exit();
-                }
-                break;
-
-            case "getCart":
-                if (isset($_SESSION["id"])) {
-                    $db = new Database();
-                    $object = new Cart($db->conn);
-                    echo json_encode(array("cart" => 
-                        $object->where(["idUser" => $_SESSION["id"]])
                      ));
                      exit();
                 } else {
