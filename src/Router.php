@@ -141,6 +141,13 @@ class Router
                 session_destroy();
                 break;
 
+            case "estimate":
+                echo json_encode(array("estimation" => 
+                    estimate()
+                    )
+                );
+                break;
+
             default:
                 echo json_encode(array("errors" => [
                         "None or invalid path indicated !"

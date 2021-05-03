@@ -38,6 +38,8 @@ require_once "src/Crud/Handler/HandlerImage.php";
 // Route request to right object
 require_once "src/Router.php";
 
+require_once "src/Utils/Estimate.php";
+
 // Inventory for the C application
 require_once "src/Inventory/Inventory.php";
 
