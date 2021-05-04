@@ -34,7 +34,8 @@ require_once "src/Crud/Handler/HandlerUser.php";
 require_once "src/Crud/Handler/HandlerLogo.php";
 require_once "src/Crud/Handler/HandlerModel.php";
 require_once "src/Crud/Handler/HandlerImage.php";
-
+require_once "src/Crud/Handler/HandlerProduct.php";
+require_once "src/Crud/Handler/HandlerCart.php";
 // Route request to right object
 require_once "src/Router.php";
 
