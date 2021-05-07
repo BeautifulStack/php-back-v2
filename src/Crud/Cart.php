@@ -12,9 +12,16 @@ class Cart extends CrudClass implements CrudInterface
         "idUser" => ["user", "lastName"]
     ];
 
-    public function create(array $args)
+    public function create(array $args = [])
     {
-        $args = $this->check_attributes_create($args, $this->attributes, $this->key);
+        // $args = $this->check_attributes_create($args, $this->attributes, $this->key, ["idUser"]);
+
+        if (!isset($_SESSION["id"])) {
+            echo json_encode(array("errors" => "You must be logged to create a cart"));
+            exit();
+        }
+
+        $args = ["idUser" => $_SESSION["id"]];
 
         $query = $this->conn->prepare("INSERT INTO cart(idUser) VALUES (?)");
         $query->execute([
