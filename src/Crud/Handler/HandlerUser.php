@@ -32,16 +32,18 @@ class HandlerUser extends Handler
     {
         $email = $_POST['email'];
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo json_encode(array("errors" => [
+            echo json_encode(
+                array("errors" => [
                     "Invalid email format !"
                 ])
             );
             exit();
-    }
+        }
 
         $result = $this->object->where(["email" => $_POST['email']]);
         if (count($result) != 0) {
-            echo json_encode(array("errors" => [
+            echo json_encode(
+                array("errors" => [
                     "Email already exists !"
                 ])
             );
@@ -59,7 +61,7 @@ class HandlerUser extends Handler
         $salts = ["Hello", "World", "We", "Love", "fairrepack"];
 
         foreach ($salts as $salt) {
-            $password = hash("sha256", $password.$salt);
+            $password = hash("sha256", $password . $salt);
         }
 
         return $password;
@@ -82,17 +84,14 @@ class HandlerUser extends Handler
             if (!isset($result[0]) || !isset($_POST['password'])) {
                 return -1;
             } else {
-                
+
                 if ($result[0]["password"] == HandlerUser::encrypt($_POST['password'])) {
                     $_SESSION["id"] = $result[0]["idUser"];
                     return $result[0]["idUser"];
                 } else {
                     return -1;
                 }
-
             }
-            
-            
         }
         return -1;
     }

@@ -34,6 +34,7 @@ require_once "src/Crud/Handler/HandlerUser.php";
 require_once "src/Crud/Handler/HandlerLogo.php";
 require_once "src/Crud/Handler/HandlerModel.php";
 require_once "src/Crud/Handler/HandlerImage.php";
+require_once "src/Crud/Handler/HandlerOffer.php";
 
 // Route request to right object
 require_once "src/Router.php";
@@ -58,16 +59,16 @@ if (count($_POST) == 0 && count($_FILES) == 0) {
     $json_decoded = json_decode($_POST["request"], TRUE);
 
     if ($json_decoded === NULL) {
-        echo json_encode(array("errors" => [
-            "Json is not properly encoded"
+        echo json_encode(
+            array("errors" => [
+                "Json is not properly encoded"
             ])
         );
         exit();
     }
-        
-    $_POST = $json_decoded;
 
-} 
+    $_POST = $json_decoded;
+}
 
 $router = new Router();
 
