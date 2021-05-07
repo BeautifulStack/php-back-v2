@@ -136,7 +136,6 @@ class CrudClass
 
     public function where(array $clauses): array
     {
-
         $this->check_attributes_update(array_keys($clauses));
         $args = $this->check_attributes([]);
         $query = $this->generate_query($args)." WHERE ";
@@ -144,7 +143,7 @@ class CrudClass
         $params = [];
         $values = [];
         foreach ($clauses as $key => $value) {
-            array_push($params, "$key = ?   ");
+            array_push($params, "$this->name.$key = ?   ");
             array_push($values, $value);
         }
 
