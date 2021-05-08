@@ -126,13 +126,14 @@ class Router
                 if (isset($_SESSION["id"])) {
                     $db = new Database();
                     $object = new User($db->conn);
-                    echo json_encode(array("infos" => 
+                    echo json_encode(array(
+                        "infos" =>
                         HandlerUser::filterPassword($object->where(["idUser" => $_SESSION["id"]]))[0]
-                     ));
-                     exit();
+                    ));
+                    exit();
                 } else {
                     echo json_encode(array("errors" => [
-                       "Please Login Before"
+                        "Please Login Before"
                     ]));
                     exit();
                 }
@@ -140,7 +141,8 @@ class Router
 
             case "login":
                 if (($id = HandlerUser::Login()) > -1) {
-                    echo json_encode(array("id" =>  
+                    echo json_encode(array(
+                        "id" =>
                         $id
                     ));
                     exit();
@@ -159,8 +161,10 @@ class Router
                 break;
 
             case "estimate":
-                echo json_encode(array("estimation" => 
-                    estimate()
+                echo json_encode(
+                    array(
+                        "estimation" =>
+                        estimate()
                     )
                 );
                 break;
