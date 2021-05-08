@@ -8,7 +8,8 @@ class Router
         $pathArr = explode('/', $path);
 
         if (empty($pathArr) || count($pathArr) == 1 || empty($pathArr[0])) {
-            echo json_encode(array("errors" => [
+            echo json_encode(
+                array("errors" => [
                     "None or invalid path indicated !"
                 ])
             );
@@ -48,7 +49,7 @@ class Router
             case "Offer":
                 $db = new Database();
                 $object = new Offer($db->conn);
-                $handler = new HandlerImage($object);
+                $handler = new HandlerOffer($object);
                 echo json_encode($handler->route($pathArr));
                 break;
 
@@ -143,7 +144,7 @@ class Router
                         $id
                     ));
                     exit();
-                }  else {
+                } else {
                     echo json_encode(array("errors" => [
                         "Error in credentials"
                     ]));
@@ -165,13 +166,12 @@ class Router
                 break;
 
             default:
-                echo json_encode(array("errors" => [
+                echo json_encode(
+                    array("errors" => [
                         "None or invalid path indicated !"
                     ])
                 );
                 exit;
         }
-
     }
-
 }
