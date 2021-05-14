@@ -6,3 +6,4 @@ define('AUTH_DB_PORT', "");
 define('AUTH_DB_USER', "");
 define('AUTH_DB_PASS', "");
 define('AUTH_DB_NAME', "fairrepack");
+define('STRIPE_API_TOKEN', "");
