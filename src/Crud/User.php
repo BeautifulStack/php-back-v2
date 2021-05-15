@@ -33,6 +33,13 @@ class User extends CrudClass implements CrudInterface
         ]);
 
         $query = $this->conn->query("SELECT LAST_INSERT_ID() as id");
+
+        $email = $args['email'];
+        $code = 'egdtf-dhs';
+
+
+        Email::send_email($email, $code);
+
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -20,7 +20,7 @@ class HandlerUser extends Handler
         return $result;
     }
 
-    protected function create(): array
+    protected function create() : array
     {
         $email = $_POST['email'];
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -29,6 +29,7 @@ class HandlerUser extends Handler
                     "Invalid email format !"
                 ])
             );
+            echo $email;
             exit();
         }
 
@@ -42,17 +43,9 @@ class HandlerUser extends Handler
             exit();
         }
 
-
-
         $id = $this->object->create($_POST);
         $code=substr(md5(mt_rand()),0,15);
         $message = "Your Activation Code is ".$code."";
-        $to=$email;
-        $subject="Activation Code for FairRepack";
-        $from = 'your email';
-        $body='your activation code is '.$code.' Please Click on this link Verify.php?id='.$id['id'].'$code='.$code.'</a>to activate your account';
-        $headers = "From:".$from;
-        mail($to,$subject,$body,$headers);
 
         echo "An activation code is sent to you emails ";
 
