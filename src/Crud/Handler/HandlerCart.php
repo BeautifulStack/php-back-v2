@@ -27,9 +27,15 @@ class HandlerCart extends Handler
         // Ici j'aurai bien utiliser la DB de cart à la place mais elle est en protected
         $db = new Database();
         $object = new Product($db->conn);
+        $objectCart = new Cart($db->conn);
+        $handlerCart = new HandlerCart($objectCart);
+        $res = $handlerCart->object->where(["idUser" => $_SESSION["id"]]);
+        $res = end($res);
+        $cartId = $res["idCart"];
+
 
         $handler = new HandlerProduct($object);
-        $results = $handler->object->where(["idCart" => $_GET['id']]);
+        $results = $handler->object->where(["idCart" => $cartId]);
 
         return array("content" => $results);
     }
