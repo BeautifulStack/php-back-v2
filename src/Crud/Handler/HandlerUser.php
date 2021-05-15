@@ -43,15 +43,13 @@ class HandlerUser extends Handler
             exit();
         }
 
-        $id = $this->object->create($_POST);
-        $code=substr(md5(mt_rand()),0,15);
-        $message = "Your Activation Code is ".$code."";
-
-        echo "An activation code is sent to you emails ";
-
-
         $_POST["password"] = HandlerUser::encrypt($_POST["password"]);
-        return $id['id'];
+        $code=substr(md5(mt_rand()),0,15);
+        $id = $this->object->create($_POST);
+
+        $email = $_POST['email'];
+        Email::send_email($email, $code);
+        return $id;
     }
 
     static function encrypt(string $password): string
