@@ -44,8 +44,21 @@ class HandlerUser extends Handler
 
 
 
+        $id = $this->object->create($_POST);
+        $code=substr(md5(mt_rand()),0,15);
+        $message = "Your Activation Code is ".$code."";
+        $to=$email;
+        $subject="Activation Code for FairRepack";
+        $from = 'your email';
+        $body='your activation code is '.$code.' Please Click on this link Verify.php?id='.$id['id'].'$code='.$code.'</a>to activate your account';
+        $headers = "From:".$from;
+        mail($to,$subject,$body,$headers);
+
+        echo "An activation code is sent to you emails ";
+
+
         $_POST["password"] = HandlerUser::encrypt($_POST["password"]);
-        return $this->object->create($_POST);
+        return $id['id'];
     }
 
     static function encrypt(string $password): string
