@@ -14,11 +14,11 @@ class Offer extends CrudClass implements CrudInterface
         "counterOffer",
         "idUser"
     ];
-    protected $foreignKey = [
-        "idModel" => ["product_model", "modelName"],
-        //"counterOffer" => ["offer", "idOffer"],
-        "idUser"  => ["user", "lastName"]
-    ];
+    // protected $foreignKey = [
+    //     "idModel" => ["product_model", "modelName"],
+    //     //"counterOffer" => ["offer", "idOffer"],
+    //     "idUser"  => ["user", "lastName"]
+    // ];
 
     public function create(array $args)
     {
