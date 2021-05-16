@@ -127,8 +127,7 @@ class Router
                     $db = new Database();
                     $object = new User($db->conn);
                     echo json_encode(array(
-                        "infos" =>
-                        HandlerUser::filterPassword($object->where(["idUser" => $_SESSION["id"]]))[0]
+                        "infos" => HandlerUser::filterPassword($object->where(["idUser" => $_SESSION["id"]]))[0]
                     ));
                     exit();
                 } else {
@@ -137,13 +136,11 @@ class Router
                     ]));
                     exit();
                 }
-                break;
 
             case "login":
                 if (($id = HandlerUser::Login()) > -1) {
                     echo json_encode(array(
-                        "id" =>
-                        $id
+                        "id" => $id
                     ));
                     exit();
                 } else {
@@ -163,19 +160,19 @@ class Router
             case "estimate":
                 echo json_encode(
                     array(
-                        "estimation" =>
-                        estimate()
+                        "estimation" => estimate()
                     )
                 );
                 break;
-                // case "payementIntent":
-                //     $payement = new Stripe(50);
-                //     var_dump($payement->createPayementIntent());
+
+            case "Payment":
+
                 //     var_dump($payement->registerCard(array("number" => 4000002500003155, "exp_month" => 3, "exp_year" => 2023, "cvc" => 236)));
                 //     var_dump($payement->pay());
                 //     var_dump($payement->updateStatus());
                 //     var_dump($payement->getStatus());
-                //     break;
+                echo json_encode(Stripe::do_payment($pathArr));
+                break;
 
             default:
                 echo json_encode(

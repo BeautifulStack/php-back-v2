@@ -5,8 +5,7 @@ class HandlerCart extends Handler
     protected function readAll(array $pathArr): array
     {
         if (isset($_SESSION["id"])) {
-            $result = $this->object->where(["idUser" => $_SESSION["id"]]);
-            return $result;
+            return $this->object->where(["idUser" => $_SESSION["id"]]);
         } else {
             echo json_encode(array("errors" => [
                 "Please Login Before"
@@ -17,8 +16,8 @@ class HandlerCart extends Handler
 
     public function route(array $pathArr): array
     {
-        if ($pathArr[1] === "Content") return $this->getCart($pathArr);
-        if ($pathArr[1] === "Price") return $this->getPrice($pathArr);
+        if ($pathArr[1] === "Content") return $this->getCart();
+        if ($pathArr[1] === "Price") return $this->getPrice();
 
         return parent::route($pathArr);
     }
@@ -27,16 +26,13 @@ class HandlerCart extends Handler
     {
 
         $db = new Database();
-        $object = new Product($db->conn);
-        $objectCart = new Cart($db->conn);
-        $handlerCart = new HandlerCart($objectCart);
-        $res = $handlerCart->object->where(["idUser" => $_SESSION["id"]]);
+        $product = new Product($db->conn);
+        $cart = new Cart($db->conn);
+        $res = $cart->where(["idUser" => $_SESSION["id"]]);
         $res = end($res);
         $cartId = $res["idCart"];
 
-        $handler = new HandlerProduct($object);
-        $results = $handler->object->where(["idCart" => $cartId]);
-        return $results;
+        return $product->where(["idCart" => $cartId]);
     }
 
     protected function getCart(): array
