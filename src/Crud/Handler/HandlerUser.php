@@ -20,7 +20,7 @@ class HandlerUser extends Handler
         return $result;
     }
 
-    protected function create(): array
+    protected function create() : array
     {
         $email = $_POST['email'];
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -29,6 +29,7 @@ class HandlerUser extends Handler
                     "Invalid email format !"
                 ])
             );
+            echo $email;
             exit();
         }
 
@@ -42,10 +43,13 @@ class HandlerUser extends Handler
             exit();
         }
 
-
-
         $_POST["password"] = HandlerUser::encrypt($_POST["password"]);
-        return $this->object->create($_POST);
+        $code=substr(md5(mt_rand()),0,15);
+        $id = $this->object->create($_POST);
+
+        $email = $_POST['email'];
+        Email::send_email($email, $code);
+        return $id;
     }
 
     static function encrypt(string $password): string
