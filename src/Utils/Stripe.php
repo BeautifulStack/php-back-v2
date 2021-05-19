@@ -21,10 +21,24 @@ class Stripe
                 $object = new Cart($db->conn);
                 $handler = new HandlerCart($object);
                 $amount = $handler->route(["Cart", "Price"]);
+                $cart_id = $object->where(["idUser" => $_SESSION["id"]])[0]["idCart"];
 
                 $payment = Stripe::createPayment($_POST["payment_method"], $amount["price"]);
 
-                return $payment;
+                if (isset($payment["status"])) {
+                    $order = new Order($db->conn);
+                    $order->create([
+                        "totalPrice" => $amount["price"],
+                        "addressDest" => $_POST["delivery_address"],
+                        "deliveryMode" => "Chronopost",
+                        "deliveryStatus" => "In Warehouse",
+                        "isPaid" => 1,
+                        "idCart" => $cart_id,
+                        "orderDate" => "tkt mon reuf"
+                    ]);
+                    return ["status" => $payment["status"]];
+                }
+                else return $payment["error"];
 
             default :
                 echo json_encode(
