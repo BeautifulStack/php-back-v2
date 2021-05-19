@@ -6,7 +6,6 @@ require_once "config/config.php";
 
 // Connect to db, need config.php
 require_once "src/Database.php";
-require_once "src/Stripe.php";
 
 // CRUD Parent Class
 require_once "src/Crud/CrudClass/CrudInterface.php";
@@ -44,6 +43,7 @@ require_once "src/email.php";
 require_once "src/Router.php";
 
 require_once "src/Utils/Estimate.php";
+require_once "src/utils/Stripe.php";
 
 // Inventory for the C application
 require_once "src/Inventory/Inventory.php";
