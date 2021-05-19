@@ -43,7 +43,7 @@ require_once "src/email.php";
 require_once "src/Router.php";
 
 require_once "src/Utils/Estimate.php";
-require_once "src/utils/Stripe.php";
+require_once "src/Utils/Stripe.php";
 
 // Inventory for the C application
 require_once "src/Inventory/Inventory.php";
