@@ -2,7 +2,7 @@
 
 class CrudClass
 {
-    protected $conn;
+    public $conn;
     protected $name;
     protected $key;
     protected $attributes;

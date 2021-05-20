@@ -34,10 +34,26 @@ class HandlerProduct extends Handler
 
     protected function readAll(array $pathArr): array
     {
-        $result = parent::readAll($pathArr);
-        $result = $this->object->matchModelBrand($result);
 
-        return $result;
+        $result = $this->object->conn->query("SELECT
+                                                    product.idProduct as idProduct,
+                                                    product_model.modelName as modelName,
+                                                    product_model.officialPrice as officialPrice,
+                                                    product_model.idModel as idModel,
+                                                    brand.brandName as brandName,
+                                                    brand.idBrand as idBrand,
+                                                    category.idCategory as idCategory,
+                                                    category.categoryName as categoryName,
+                                                    image.path as path
+                                                FROM product
+                                                    INNER JOIN product_model ON product.idModel = product_model.idModel
+                                                    INNER JOIN brand on product_model.idBrand = brand.idBrand
+                                                    INNER JOIN category ON product_model.idCategory = category.idCategory
+                                                    INNER JOIN image ON product_model.idModel = image.idModel
+                                                WHERE
+                                                    disponibility = 1;");
+        $TrueResult = $result->fetchAll(PDO::FETCH_ASSOC);
+        return $TrueResult;
     }
 
     protected function read(array $pathArr)
