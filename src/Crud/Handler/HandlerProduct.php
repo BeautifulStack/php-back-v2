@@ -18,7 +18,13 @@ class HandlerProduct extends Handler
         $handler = new HandlerCart($object);
 
         $result = $handler->object->where(["idUser" => $_SESSION["id"]]);
-        $cart = end($result);
+
+        if (count($result) === 0) {
+            $cart = $handler->object->create();
+            $cart["idCart"] = $cart["id"];
+        } else {
+            $cart = end($result);
+        }
 
         $this->object->update(["id" => $_POST["id"], "idCart" => $cart["idCart"]]);
 
