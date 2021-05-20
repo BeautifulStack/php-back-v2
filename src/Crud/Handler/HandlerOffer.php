@@ -12,6 +12,22 @@ class HandlerOffer extends HandlerImage
         return parent::route($pathArr);
     }
 
+    public function update(): array
+    {
+
+        if ($_POST["isAccepted"] === 2) {
+            $object = new Product($this->object->conn);
+            $products = new HandlerProduct($object);
+            $offer = $this->object->where(["idOffer" => $_POST["id"]])[0];
+            var_dump($offer);
+
+            $args = array("idOffer" => $offer["idOffer"], "idWarehouse" => 1, "idModel" => $offer["idModel"], "isDelivered" => 0, "conditionProduct" => isset($offer["conditionProduct"]) ? $offer["conditionProduct"] : "", "disponibility" => 1);
+            $products->object->create($args);
+        }
+
+        return parent::update();
+    }
+
     protected function CounterOffer(): array
     {
         $args = [];
