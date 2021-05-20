@@ -27,10 +27,7 @@ class HandlerCart extends Handler
 
         $db = new Database();
         $product = new Product($db->conn);
-        $cart = new Cart($db->conn);
-        $res = $cart->where(["idUser" => $_SESSION["id"]]);
-        $res = end($res);
-        $cartId = $res["idCart"];
+        $cartId = $this->cart_by_user();
 
         return $product->where(["idCart" => $cartId]);
     }
@@ -43,15 +40,10 @@ class HandlerCart extends Handler
 
     protected function getPrice(): array
     {
-        $db = new Database();
-        $objectCart = new Cart($db->conn);
-        $handlerCart = new HandlerCart($objectCart);
-        $res = $handlerCart->object->where(["idUser" => $_SESSION["id"]]);
-        $res = end($res);
-        $cartId = $res["idCart"];
+        $cartId = $this->cart_by_user();
 
         $query = "SELECT * FROM product INNER JOIN product_model ON product.idModel = product_model.idModel WHERE idCart = ?";
-        $query = $db->conn->prepare($query);
+        $query = $this->object->conn->prepare($query);
         $query->execute([$cartId]);
 
         $res = $query->fetchAll();
@@ -62,5 +54,13 @@ class HandlerCart extends Handler
 
         $total = round($total);
         return array("price" => $total);
+    }
+
+    public function cart_by_user()
+    {
+        $q = $this->object->conn->prepare("SELECT MAX(idCart) as id FROM cart WHERE idUser = ?");
+        $q->execute([$_SESSION["id"]]);
+        $res = $q->fetchAll(PDO::FETCH_ASSOC);
+        return $res[0]["id"];
     }
 }
