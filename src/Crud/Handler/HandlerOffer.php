@@ -1,6 +1,6 @@
 <?php
 
-class HandlerOffer extends Handler
+class HandlerOffer extends HandlerImage
 {
 
 
