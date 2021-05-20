@@ -63,7 +63,8 @@ class Product extends CrudClass implements CrudInterface
 
     public function matchModelBrand(array $args)
     {
-        $returnedValue = []; 
+        $returnedValue = [];
+
         foreach ($args as $row) {
             $query = "SELECT officialPrice, brandName, logo, categoryName, path FROM product_model INNER JOIN brand ON product_model.idBrand = brand.idBrand INNER JOIN image ON image.idModel = product_model.idModel INNER JOIN category ON product_model.idCategory = category.idCategory WHERE modelName = \"".$row['product_modelmodelName']."\"";
             $query = $this->conn->query($query);
