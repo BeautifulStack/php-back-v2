@@ -166,11 +166,6 @@ class Router
                 break;
 
             case "Payment":
-
-                //     var_dump($payement->registerCard(array("number" => 4000002500003155, "exp_month" => 3, "exp_year" => 2023, "cvc" => 236)));
-                //     var_dump($payement->pay());
-                //     var_dump($payement->updateStatus());
-                //     var_dump($payement->getStatus());
                 echo json_encode(Stripe::do_payment($pathArr));
                 break;
 

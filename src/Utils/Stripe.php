@@ -18,14 +18,15 @@ class Stripe
             case "Create":
 
                 $db = new Database();
-                $object = new Cart($db->conn);
-                $handler = new HandlerCart($object);
+                $cart = new Cart($db->conn);
+                $handler = new HandlerCart($cart);
                 $amount = $handler->route(["Cart", "Price"]);
-                $cart_id = $object->where(["idUser" => $_SESSION["id"]])[0]["idCart"];
+                $cart_id = $handler->cart_by_user();
 
                 $payment = Stripe::createPayment($_POST["payment_method"], $amount["price"]);
 
                 if (isset($payment["status"])) {
+
                     $order = new Order($db->conn);
                     $order->create([
                         "totalPrice" => $amount["price"],
@@ -36,6 +37,15 @@ class Stripe
                         "idCart" => $cart_id,
                         "orderDate" => "tkt mon reuf"
                     ]);
+
+                    $content = $handler->route(["Cart", "Content"]);
+                    $p = new Product($db->conn);
+                    foreach ($content["content"] as $product){
+                        $p->update(["id" => $product["idProduct"], "disponibility" => 0]);
+                    }
+
+                    $cart->create(["idUser" => $_SESSION["id"]]);
+
                     return ["status" => $payment["status"]];
                 }
                 else return $payment["error"];
