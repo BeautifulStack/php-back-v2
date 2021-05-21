@@ -15,7 +15,7 @@ class HandlerOffer extends HandlerImage
     public function update(): array
     {
 
-        if ($_POST["isAccepted"] === 2) {
+        if ($_POST["isAccepted"] === 1) {
             $object = new Product($this->object->conn);
             $products = new HandlerProduct($object);
             $offer = $this->object->where(["idOffer" => $_POST["id"]])[0];
