@@ -1,4 +1,5 @@
 <?php
+// Joakim c'est le plus beau
 
 class HandlerOffer extends HandlerImage
 {
@@ -23,6 +24,7 @@ class HandlerOffer extends HandlerImage
 
             $args = array("idOffer" => $offer["idOffer"], "idWarehouse" => 1, "idModel" => $offer["idModel"], "isDelivered" => 0, "conditionProduct" => isset($offer["conditionProduct"]) ? $offer["conditionProduct"] : "", "disponibility" => 1);
             $products->object->create($args);
+            // Antoine est un gros bouf
         }
 
         return parent::update();
