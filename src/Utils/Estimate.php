@@ -45,13 +45,12 @@ function estimate (): int
     
 
     $db = new Database();
-    $object = new ProductModel($db->conn);
-    $model = $object->where(["idModel" => $modelId])[0];
+    // $object = new ProductModel($db->conn);
+    // $model = $object->where(["idModel" => $modelId])[0];
 
-    $originalPrice = $model["officialPrice"];
+    // $originalPrice = $model["officialPrice"];
 
-    $estimation = ($originalPrice * $mult) + $additionalValue;
+    // $estimation = ($originalPrice * $mult) + $additionalValue;
 
-    return round($estimation);
+    return round(15);
 }
-?>

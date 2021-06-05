@@ -8,42 +8,21 @@ require_once "config/config.php";
 require_once "src/Database.php";
 
 // CRUD Parent Class
-require_once "src/Crud/CrudClass/CrudInterface.php";
-require_once "src/Crud/CrudClass/CrudClass.php";
-
-// CRUD Classes
-require_once "src/Crud/Association.php";
-require_once "src/Crud/Brand.php";
-require_once "src/Crud/CaractValue.php";
-require_once "src/Crud/Cart.php";
-require_once "src/Crud/Category.php";
-require_once "src/Crud/Image.php";
-require_once "src/Crud/Offer.php";
-require_once "src/Crud/Order.php";
-require_once "src/Crud/Product.php";
-require_once "src/Crud/ProductModel.php";
-require_once "src/Crud/Project.php";
-require_once "src/Crud/Promotion.php";
-require_once "src/Crud/Transfer.php";
-require_once "src/Crud/User.php";
-require_once "src/Crud/Warehouse.php";
-
-// Handle request
-require_once "src/Crud/Handler/Handler.php";
-require_once "src/Crud/Handler/HandlerUser.php";
-require_once "src/Crud/Handler/HandlerLogo.php";
-require_once "src/Crud/Handler/HandlerModel.php";
-require_once "src/Crud/Handler/HandlerImage.php";
-require_once "src/Crud/Handler/HandlerOffer.php";
-require_once "src/Crud/Handler/HandlerProduct.php";
-require_once "src/Crud/Handler/HandlerCart.php";
 require_once "src/email.php";
 
 // Route request to right object
 require_once "src/Router.php";
 
+require_once "src/Objects/brand.php";
+require_once "src/Objects/category.php";
+require_once "src/Objects/offer.php";
+require_once "src/Objects/products.php";
+require_once "src/Objects/users.php";
+
+require_once "src/Utils/UserRights.php";
 require_once "src/Utils/Estimate.php";
 require_once "src/Utils/Stripe.php";
+require_once "src/Utils/MysqlQuery.php";
 
 // Inventory for the C application
 require_once "src/Inventory/Inventory.php";
