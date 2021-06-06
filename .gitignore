@@ -4,4 +4,4 @@ config/config.php
 
 data/brand/*
 data/association/*
-data/product/*
+data/product_model/*

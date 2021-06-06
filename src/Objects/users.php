@@ -62,9 +62,62 @@ class User
         return $randstring;
     }
 
-    public function route()
+    private function Promote()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        UserRights::UserAdmin($this->conn);
+
+
+
+        Request::Prepare('UPDATE `User` SET `isAdmin` = 1 WHERE `User`.`idUser` = ?', [$_POST['idUser']], $this->conn);
+
+        return json_encode(array("status" => 201));
+    }
+
+    private function Unpromote()
+    {
+        UserRights::UserAdmin($this->conn);
+
+
+
+        Request::Prepare('UPDATE `User` SET `isAdmin` = 0 WHERE `User`.`idUser` = ?', [$_POST['idUser']], $this->conn);
+
+        return json_encode(array("status" => 201));
+    }
+
+    private function update()
+    {
+        $user = UserRights::UserInfo($this->conn);
+
+
+        $userDependencies = ['firstname', 'lastname', 'email', 'phonenumber', 'password'];
+
+        $update = [];
+        foreach ($userDependencies as $dep) {
+            if (isset($_POST[$dep])) {
+                if ($dep === 'password') $_POST['password'] = UserRights::encrypt($_POST['password']);
+                array_push($update, "$dep = '$_POST[$dep]'");
+            }
+        }
+
+        $update = implode(", ", $update);
+        $token = User::RandomString(50);
+        $update .= ", token = '" . $token . "'";
+
+        Request::Prepare('UPDATE `User` SET ' . $update . " WHERE idUser = " . $user['idUser'], [], $this->conn);
+
+        return json_encode(array("status" => 201, "token" => $token));
+    }
+
+    public function route(array $route)
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Promote") {
+            return $this->Promote();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Unpromote") {
+            return $this->Unpromote();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Update") {
+            return $this->update();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->create();
         }
     }

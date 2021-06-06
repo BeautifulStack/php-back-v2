@@ -30,9 +30,24 @@ class Category
         return json_encode(['status' => 201, 'category' => $brandId['id']]);
     }
 
-    public function route()
+    public function updateCategory()
+    {
+        UserRights::UserAdmin($this->conn);
+
+        if (!isset($_POST['categoryName'])) return json_encode(['status' => 400, 'error' => 'Please specify a categoryName']);
+        if (!isset($_POST['idCategory'])) return json_encode(['status' => 400, 'error' => 'Please specify a idCategory']);
+
+        Request::Prepare('UPDATE ' . $this->tableName . ' SET categoryName = ? WHERE idCategory = ?', array($_POST['categoryName'], $_POST['idCategory']), $this->conn);
+
+        return json_encode(['status' => 201, 'category' => $_POST['categoryName']]);
+    }
+
+    public function route(array $route)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] !== '') {
+            return $this->updateCategory();
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->create();
         }

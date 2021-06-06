@@ -9,7 +9,8 @@ class UserRights
             exit();
         }
         $request = UserRights::GetUser($conn);
-        if (isset($request['isAdmin']) || $request['isAdmin'] == 0) {
+
+        if (!isset($request['isAdmin']) || $request['isAdmin'] == 0) {
             echo json_encode(['status' => 401, 'error' => 'Unauthorized Action']);
             exit();
         }
@@ -31,7 +32,7 @@ class UserRights
 
     public static function GetUser(PDO $conn)
     {
-        return $request = Request::Prepare('SELECT idUser FROM User WHERE token = ?', [$_SERVER['HTTP_FAIRREPACK_TOKEN']], $conn)->fetch(PDO::FETCH_ASSOC);
+        return Request::Prepare('SELECT idUser, isAdmin FROM User WHERE token = ?', [$_SERVER['HTTP_FAIRREPACK_TOKEN']], $conn)->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function Login(PDO $conn)
@@ -45,7 +46,9 @@ class UserRights
             exit();
         }
 
-        return $request = Request::Prepare('SELECT token FROM User WHERE email = ? AND password = ?', [$_POST['email'], UserRights::encrypt($_POST['password'])], $conn)->fetch(PDO::FETCH_ASSOC)['token'];
+        $result = Request::Prepare('SELECT token FROM User WHERE email = ? AND password = ?', [$_POST['email'], UserRights::encrypt($_POST['password'])], $conn)->fetch(PDO::FETCH_ASSOC);
+
+        return $result;
     }
 
     static function encrypt(string $password): string

@@ -107,6 +107,12 @@ class Offer
         }
 
         Request::Prepare('UPDATE `offer` SET `status` = ? WHERE `offer`.`idOffer` = ?', [$_POST['status'], $idPorposition], $this->conn);
+        Request::Prepare('UPDATE `sell` SET `status` = ? WHERE `sell`.`idSell` = ?', [$_POST['status'], $props['idSell']], $this->conn);
+
+        if ($_POST['status'] === 'accept') {
+            Request::Prepare('INSERT INTO `product` (`idModel`, `idWarehouse`) VALUES (? , 1)', [$props['idModel']], $this->conn);
+        }
+
         return json_encode(['status' => 201, 'propostition' => $idPorposition]);
     }
 
