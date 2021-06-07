@@ -61,4 +61,18 @@ class UserRights
 
         return $password;
     }
+
+    static function getPrice(PDO $conn): array
+    {
+
+        $result = Request::Prepare('SELECT resellPrice FROM `InCart` INNER JOIN product ON InCart.idProduct = product.idProduct INNER JOIN model ON product.idModel = model.idModel WHERE idUser = ?', [UserRights::UserInfo($conn)], $conn);
+
+        $total = 0;
+        foreach ($result as $row) {
+            $total += $row["resellPrice"];
+        }
+
+        $total = round($total);
+        return array("price" => $total);
+    }
 }

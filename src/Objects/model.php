@@ -10,12 +10,19 @@ class Model
         $this->conn = $db;
     }
 
-    // public function get()
-    // {
-    //     $brands = Request::Prepare('SELECT * FROM ' . $this->tableName, [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+    public function get()
+    {
+        $where = [];
+        if (isset($_GET['brand'])) array_push($where, 'idBrand = ?');
+        if (isset($_GET['category'])) array_push($where, 'idCategory = ?');
 
-    //     return json_encode(['status' => 201, 'categories' => $brands]);
-    // }
+        $where = implode(' AND ', $where);
+
+        $products = Request::Prepare('SELECT model.idBrand, modelName, brandName, idModel, model.idCategory, categoryName FROM `model` INNER JOIN brand ON brand.idBrand = model.idBrand INNER JOIN category ON category.idCategory = model.idCategory'
+            . (strlen($where) > 0 ? ' WHERE ' . $where : ''), [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+
+        return json_encode(['status' => 201, 'models' => $products]);
+    }
 
     public function create()
 
@@ -75,7 +82,7 @@ class Model
 
     public function route(array $route)
     {
-        // if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "SellPossibilities") {
             return $this->SellPossibilities();
         }

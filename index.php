@@ -19,6 +19,9 @@ require_once "src/Objects/offer.php";
 require_once "src/Objects/products.php";
 require_once "src/Objects/users.php";
 require_once "src/Objects/model.php";
+require_once "src/Objects/order.php";
+require_once "src/Objects/cart.php";
+require_once "src/Objects/warehouse.php";
 
 require_once "src/Utils/UserRights.php";
 require_once "src/Utils/Estimate.php";

@@ -18,39 +18,33 @@ class Stripe
             case "Create":
 
                 $db = new Database();
-                $cart = new Cart($db->conn);
-                $handler = new HandlerCart($cart);
-                $amount = $handler->route(["Cart", "Price"]);
-                $cart_id = $handler->cart_by_user();
+                $amount = UserRights::getPrice($db->conn);
+                $userId = UserRights::UserInfo($db->conn);
+                // $cart = new Cart($db->conn);
+                // $handler = new HandlerCart($cart);
+                // $amount = $handler->route(["Cart", "Price"]);
+                // $cart_id = $handler->cart_by_user();
 
                 $payment = Stripe::createPayment($_POST["payment_method"], $amount["price"]);
 
                 if (isset($payment["status"])) {
 
                     $order = new Order($db->conn);
-                    $order->create([
+                    $orderId = $order->create([
+                        "idUser" => $userId,
                         "totalPrice" => $amount["price"],
                         "addressDest" => $_POST["delivery_address"],
-                        "deliveryMode" => "Chronopost",
-                        "deliveryStatus" => "In Warehouse",
-                        "isPaid" => 1,
-                        "idCart" => $cart_id,
-                        "orderDate" => "tkt mon reuf"
+                        "payementStatus " => "accepted"
+
                     ]);
 
-                    $content = $handler->route(["Cart", "Content"]);
-                    $p = new Product($db->conn);
-                    foreach ($content["content"] as $product){
-                        $p->update(["id" => $product["idProduct"], "disponibility" => 0]);
-                    }
-
-                    $cart->create(["idUser" => $_SESSION["id"]]);
-
+                    $cart = new Cart($db->conn);
+                    $products = $cart->GetCart($userId);
+                    $cart->SetBuy($products, $userId, $orderId);
                     return ["status" => $payment["status"]];
-                }
-                else return $payment["error"];
+                } else return $payment["error"];
 
-            default :
+            default:
                 echo json_encode(
                     array("errors" => [
                         "Missing payment argument !"
