@@ -10,7 +10,22 @@ class UserRights
         }
         $request = UserRights::GetUser($conn);
 
-        if (!isset($request['isAdmin']) || $request['isAdmin'] == 0) {
+        if (!isset($request['isAdmin']) || $request['isAdmin'] !== 1) {
+            echo json_encode(['status' => 401, 'error' => 'Unauthorized Action']);
+            exit();
+        }
+    }
+
+
+    public static function UserAssoc(PDO $conn)
+    {
+        if (!isset($_SERVER['HTTP_FAIRREPACK_TOKEN']) && !isset($_SERVER['HTTP_TOKEN'])) {
+            echo json_encode(['status' => 401, 'error' => 'Please Sign up to do this action']);
+            exit();
+        }
+        $request = UserRights::GetUser($conn);
+
+        if (!isset($request['isAdmin']) || $request['isAdmin'] === 0) {
             echo json_encode(['status' => 401, 'error' => 'Unauthorized Action']);
             exit();
         }

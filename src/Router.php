@@ -17,14 +17,6 @@ class Router
         }
         // Deals with it handler
         switch ($pathArr[0]) {
-
-                // case "Association":
-                //     $db = new Database();
-                //     // $object = new Association($db->conn);
-                //     // $handler = new HandlerLogo($object, "name");
-                //     // echo json_encode($handler->route($pathArr));
-                //     break;
-
             case "Brand":
                 $db = new Database();
                 $brand = new Brand($db->conn);
@@ -60,7 +52,7 @@ class Router
             case "Project":
                 $db = new Database();
                 $project = new Project($db->conn);
-                echo $project->route();
+                echo $project->route($pathArr);
                 break;
 
             case "Promotion":

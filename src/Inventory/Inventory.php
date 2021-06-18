@@ -9,7 +9,7 @@ class Inventory
         // Check if valid id warehouse
         $db = new Database();
         $warehouse = new Warehouse($db->conn);
-        $result = $warehouse->read([$pathArr[1]]);
+        $result = $warehouse->get();
         if (count($result) == 0) {
             return 1;
         }
@@ -28,7 +28,7 @@ class Inventory
 
         $writer = new XMLWriter();
         $writer->openMemory();
-        $writer->startDocument('1.0','UTF-8');
+        $writer->startDocument('1.0', 'UTF-8');
         $writer->setIndent(4);
 
         $writer->startElement("products");
@@ -90,7 +90,7 @@ class Inventory
             mkdir($path, 0777);
         }
 
-        move_uploaded_file($_FILES["sendfile"]["tmp_name"], $path."/".$_FILES["sendfile"]["name"]);
+        move_uploaded_file($_FILES["sendfile"]["tmp_name"], $path . "/" . $_FILES["sendfile"]["name"]);
 
         return 0;
     }

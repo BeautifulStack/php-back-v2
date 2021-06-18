@@ -35,7 +35,7 @@ class User
         $token = User::RandomString(50);
         $emailCode = User::RandomString(20);
 
-        Request::Prepare('INSERT INTO ' . $this->tableName . ' (`firstname`, `lastname`, `email`, `phonenumber`, `isValidated`, `password`, `verificationCode`, `token`) VALUES (?,?,?,?,?,?,?,?)', array(
+        Request::Prepare('INSERT INTO ' . $this->tableName . ' (`firstname`, `lastname`, `email`, `phonenumber`, `isValidated`, `password`, `verificationCode`, `token`, `isAdmin`) VALUES (?,?,?,?,?,?,?,?,?)', array(
             $_POST['firstname'],
             $_POST['lastname'],
             $_POST['email'],
@@ -43,7 +43,8 @@ class User
             0,
             $password,
             $emailCode,
-            $token
+            $token,
+            isset($_POST['assoc']) ? 2 : 0
         ), $this->conn);
 
 
