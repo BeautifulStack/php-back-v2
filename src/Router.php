@@ -57,7 +57,11 @@ class Router
                 echo $brand->route($pathArr);
                 break;
 
-
+            case "Project":
+                $db = new Database();
+                $project = new Project($db->conn);
+                echo $project->route();
+                break;
 
             case "Promotion":
                 $db = new Database();
@@ -69,6 +73,14 @@ class Router
             case "User":
                 $db = new Database();
                 $object = new User($db->conn);
+                echo $object->route($pathArr);
+                // echo json_encode($handler->route($pathArr));
+                break;
+
+            case "Order":
+
+                $db = new Database();
+                $object = new Order($db->conn);
                 echo $object->route($pathArr);
                 // echo json_encode($handler->route($pathArr));
                 break;

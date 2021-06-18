@@ -4,13 +4,12 @@ class Stripe
 {
     public static function do_payment($args)
     {
-        if (!isset($args[1]) || !isset($_POST["payment_method"])) {
+        if (!isset($args[1]) || !isset($_POST["payment_method"]) || !isset($_POST["delivery_address"])) {
             echo json_encode(
                 array("errors" => [
                     "Missing payment argument !"
                 ])
             );
-            http_response_code(400);
             exit;
         }
 
@@ -20,10 +19,7 @@ class Stripe
                 $db = new Database();
                 $amount = UserRights::getPrice($db->conn);
                 $userId = UserRights::UserInfo($db->conn);
-                // $cart = new Cart($db->conn);
-                // $handler = new HandlerCart($cart);
-                // $amount = $handler->route(["Cart", "Price"]);
-                // $cart_id = $handler->cart_by_user();
+                $pbKey = UserRights::UserPublicKey($db->conn);
 
                 $payment = Stripe::createPayment($_POST["payment_method"], $amount["price"]);
 
@@ -37,6 +33,11 @@ class Stripe
                         "payementStatus " => "accepted"
 
                     ]);
+
+                    $bc = new BlockchainClient();
+
+                    $amountGreen = round($amount["price"] / 10);
+                    $bc->new_reward($amountGreen, $pbKey);
 
                     $cart = new Cart($db->conn);
                     $products = $cart->GetCart($userId);

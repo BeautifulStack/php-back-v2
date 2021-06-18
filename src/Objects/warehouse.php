@@ -20,17 +20,30 @@ class Warehouse
     public function create()
 
     {
+
         UserRights::UserAdmin($this->conn);
         if (!isset($_POST['maxCapacity'])) return json_encode(['status' => 400, 'error' => 'Please specify a maxCapacity']);
         if (!isset($_POST['location'])) return json_encode(['status' => 400, 'error' => 'Please specify a location']);
         if (!isset($_POST['addresse'])) return json_encode(['status' => 400, 'error' => 'Please specify a addresse']);
         if (!isset($_POST['publicKey'])) return json_encode(['status' => 400, 'error' => 'Please specify a publicKey']);
+        if (!isset($_POST['ip'])) return json_encode(['status' => 400, 'error' => 'Please specify an ip']);
 
-        Request::Prepare('INSERT INTO ' . $this->tableName . ' (brandName, logo) VALUES (?, ?)', array($_POST['brandName'], $_POST['logo']), $this->conn);
 
-        $brandId = Request::Last_Id($this->conn);
+        $bc = new BlockchainClient();
+        $bc->new_peer("10.0.0.14");
 
-        return json_encode(['status' => 201, 'brand' => $brandId['id']]);
+        Request::Prepare('INSERT INTO ' . $this->tableName . ' (maxCapacity, location, addresse, publicKey, ip) VALUES (?, ?, ?, ?, ?)', array(
+            $_POST['maxCapacity'],
+            $_POST['location'],
+            $_POST['addresse'],
+            $_POST['publicKey'],
+            $_POST['ip'],
+        ), $this->conn);
+
+        $warehouse = Request::Last_Id($this->conn);
+
+
+        return json_encode(['status' => 201, 'warehouse' => $warehouse['id']]);
     }
 
     public function route()

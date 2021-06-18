@@ -89,7 +89,7 @@ class User
         $user = UserRights::UserInfo($this->conn);
 
 
-        $userDependencies = ['firstname', 'lastname', 'email', 'phonenumber', 'password'];
+        $userDependencies = ['firstname', 'lastname', 'email', 'phonenumber', 'password', 'publicKey'];
 
         $update = [];
         foreach ($userDependencies as $dep) {

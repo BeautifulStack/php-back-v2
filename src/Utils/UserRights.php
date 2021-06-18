@@ -4,7 +4,7 @@ class UserRights
 {
     public static function UserAdmin(PDO $conn)
     {
-        if (!isset($_SERVER['HTTP_FAIRREPACK_TOKEN'])) {
+        if (!isset($_SERVER['HTTP_FAIRREPACK_TOKEN']) && !isset($_SERVER['HTTP_TOKEN'])) {
             echo json_encode(['status' => 401, 'error' => 'Please Sign up to do this action']);
             exit();
         }
@@ -18,7 +18,23 @@ class UserRights
 
     public static function UserInfo(PDO $conn)
     {
-        if (!isset($_SERVER['HTTP_FAIRREPACK_TOKEN'])) {
+        if (!isset($_SERVER['HTTP_FAIRREPACK_TOKEN'])  && !isset($_SERVER['HTTP_TOKEN'])) {
+            echo json_encode(['status' => 401, 'error' => 'Please Sign up to do this action']);
+            exit();
+        }
+
+        $request = UserRights::GetUser($conn);
+
+        if (!isset($request['idUser'])) {
+            echo json_encode(['status' => 401, 'error' => 'No corresponding User']);
+            exit();
+        }
+        return $request['idUser'];
+    }
+
+    public static function UserPublicKey(PDO $conn)
+    {
+        if (!isset($_SERVER['HTTP_FAIRREPACK_TOKEN'])  && !isset($_SERVER['HTTP_TOKEN'])) {
             echo json_encode(['status' => 401, 'error' => 'Please Sign up to do this action']);
             exit();
         }
@@ -27,12 +43,12 @@ class UserRights
             echo json_encode(['status' => 401, 'error' => 'No corresponding User']);
             exit();
         }
-        return $request['idUser'];
+        return $request['publicKey'];
     }
 
     public static function GetUser(PDO $conn)
     {
-        return Request::Prepare('SELECT idUser, isAdmin FROM User WHERE token = ?', [$_SERVER['HTTP_FAIRREPACK_TOKEN']], $conn)->fetch(PDO::FETCH_ASSOC);
+        return Request::Prepare('SELECT idUser, isAdmin, publicKey FROM User WHERE token = ?', [isset($_SERVER['HTTP_FAIRREPACK_TOKEN']) ? $_SERVER['HTTP_FAIRREPACK_TOKEN'] :  $_SERVER['HTTP_TOKEN']], $conn)->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function Login(PDO $conn)
