@@ -21,5 +21,11 @@ class Cart
             Request::Prepare('UPDATE `product` SET `status` = "notavailable" WHERE `product`.`idProduct` = ?', [$product['idProduct']], $this->conn);
             Request::Prepare('INSERT INTO `buyedProducts` (`idBuy`, `price`, `idProduct`) VALUES (?, ?, ?)', [$orderId, 150, $product['idProduct']], $this->conn);
         }
+        $this->Delete($idUser);
+    }
+
+    public function Delete(int $idUser)
+    {
+        Request::Prepare('DELETE FROM `InCart` WHERE `InCart`.`idUser` = ?', [$idUser], $this->conn);
     }
 }

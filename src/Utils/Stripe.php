@@ -42,6 +42,7 @@ class Stripe
                     $cart = new Cart($db->conn);
                     $products = $cart->GetCart($userId);
                     $cart->SetBuy($products, $userId, $orderId);
+
                     return ["status" => $payment["status"]];
                 } else return $payment["error"];
 
