@@ -35,7 +35,7 @@ class User
         $token = User::RandomString(50);
         $emailCode = User::RandomString(20);
 
-        Request::Prepare('INSERT INTO ' . $this->tableName . ' (`firstname`, `lastname`, `email`, `phonenumber`, `isValidated`, `password`, `verificationCode`, `token`, `isAdmin`) VALUES (?,?,?,?,?,?,?,?,?)', array(
+        Request::Prepare('INSERT INTO ' . $this->tableName . ' (`firstname`, `lastname`, `email`, `phonenumber`, `isValidated`, `password`, `verificationCode`, `token`, `isAdmin`, `assoc_id`) VALUES (?,?,?,?,?,?,?,?,?, ?)', array(
             $_POST['firstname'],
             $_POST['lastname'],
             $_POST['email'],
@@ -44,7 +44,8 @@ class User
             $password,
             $emailCode,
             $token,
-            isset($_POST['assoc']) ? 2 : 0
+            isset($_POST['assoc_id']) ? 2 : 0,
+            isset($_POST['assoc_id']) ? $_POST['assoc_id'] : null
         ), $this->conn);
 
 
@@ -109,6 +110,15 @@ class User
         return json_encode(array("status" => 201, "token" => $token));
     }
 
+    public function get()
+    {
+        UserRights::UserAdmin($this->conn);
+
+        $users = Request::Prepare("SELECT isAdmin, firstname, lastname, phonenumber, lastlogin, isValidated, email, idUser FROM User", [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+
+        return json_encode(array("status" => 201, "users" => $users));
+    }
+
     public function route(array $route)
     {
 
@@ -120,6 +130,6 @@ class User
             return $this->update();
         } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->create();
-        }
+        } else if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
     }
 }

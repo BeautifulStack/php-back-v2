@@ -14,7 +14,7 @@ class Offer
     {
         $idUser = UserRights::UserInfo($this->conn);
 
-        $offers = Request::Prepare('SELECT * FROM `sell` WHERE idUser = ? ORDER BY dateProposition DESC', [$idUser], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+        $offers = Request::Prepare('SELECT idSell, dateProposition, idUser, status, location, addresse FROM `sell` INNER JOIN warehouse ON warehouse.idWarehouse = sell.warehouse WHERE idUser = ? ORDER BY dateProposition DESC ', [$idUser], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, 'offers' => $offers]);
     }
@@ -24,7 +24,14 @@ class Offer
     {
         $idUser = UserRights::UserInfo($this->conn);
 
-        Request::Prepare('INSERT INTO sell (idUser) VALUES (?); ', array($idUser), $this->conn);
+
+        $warehouse = Request::Prepare("SELECT  warehouse.idWarehouse FROM `warehouse` WHERE (SELECT COUNT(*) FROM product) < warehouse.maxCapacity LIMIT 1;", [],  $this->conn)->fetch(PDO::FETCH_ASSOC);
+        $warehouse = $warehouse['idWarehouse'];
+
+        Request::Prepare('INSERT INTO sell (idUser, `warehouse`) VALUES (?, ?); ', array(
+            $idUser,
+            $warehouse
+        ), $this->conn);
 
         $brandId = Request::Last_Id($this->conn);
 
@@ -58,7 +65,7 @@ class Offer
 
         $lastId = $this->getLastOffer($idUser, $_POST['idSell']);
 
-        Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`) VALUES (?, ?, ?, ?, ?, ?, 1, \'waiting\', ?)', array(
+        Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`, `warehouse`) VALUES (?, ?, ?, ?, ?, ?, 1, \'waiting\', ?)', array(
             $_POST['idSell'],
             $idUser,
             $_POST['price'],
@@ -116,6 +123,15 @@ class Offer
         return json_encode(['status' => 201, 'propostition' => $idPorposition]);
     }
 
+    private function getUsersOffers()
+    {
+        UserRights::UserAdmin($this->conn);
+
+        $offers = Request::Prepare("SELECT * FROM `offer` RIGHT JOIN sell ON sell.idSell = offer.idSell WHERE offer.status <> 'accept' AND sell.status <> 'accept'  AND offer.proposedBy = 1", [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+
+        return json_encode(['status' => 201, 'offers' => $offers]);
+    }
+
     public function route(array $route)
     {
 
@@ -123,6 +139,8 @@ class Offer
             return $this->createOffer();
         } else if ($route[1] === "Proposition" && $route[2] !== "" && $_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->propositionAction($route[2]);
+        } else if ($route[1] === "All" && $_SERVER['REQUEST_METHOD'] === 'GET') {
+            return $this->getUsersOffers();
         } else if ($route[1] !== "" && $_SERVER['REQUEST_METHOD'] === 'GET') {
             return $this->getProposition($route[1]);
         } else if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();

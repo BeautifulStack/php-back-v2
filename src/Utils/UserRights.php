@@ -10,10 +10,11 @@ class UserRights
         }
         $request = UserRights::GetUser($conn);
 
-        if (!isset($request['isAdmin']) || $request['isAdmin'] !== 1) {
-            echo json_encode(['status' => 401, 'error' => 'Unauthorized Action']);
-            exit();
-        }
+
+        if (isset($request['isAdmin']) && $request['isAdmin'] === "1") return;
+
+        echo json_encode(['status' => 401, 'error' => 'Unauthorized Action']);
+        exit();
     }
 
 
@@ -25,7 +26,7 @@ class UserRights
         }
         $request = UserRights::GetUser($conn);
 
-        if (!isset($request['isAdmin']) || $request['isAdmin'] === 0) {
+        if (!isset($request['isAdmin']) || $request['isAdmin'] === "0") {
             echo json_encode(['status' => 401, 'error' => 'Unauthorized Action']);
             exit();
         }
@@ -77,7 +78,7 @@ class UserRights
             exit();
         }
 
-        $result = Request::Prepare('SELECT token FROM User WHERE email = ? AND password = ?', [$_POST['email'], UserRights::encrypt($_POST['password'])], $conn)->fetch(PDO::FETCH_ASSOC);
+        $result = Request::Prepare('SELECT token, isAdmin FROM User WHERE email = ? AND password = ?', [$_POST['email'], UserRights::encrypt($_POST['password'])], $conn)->fetch(PDO::FETCH_ASSOC);
 
         return $result;
     }
