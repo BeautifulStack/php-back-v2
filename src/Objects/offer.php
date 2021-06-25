@@ -113,12 +113,34 @@ class Offer
             return json_encode(['status' => 400, 'error' => 'You cannot accept your own offer']);
         }
 
-        Request::Prepare('UPDATE `offer` SET `status` = ? WHERE `offer`.`idOffer` = ?', [$_POST['status'], $idPorposition], $this->conn);
-        Request::Prepare('UPDATE `sell` SET `status` = ? WHERE `sell`.`idSell` = ?', [$_POST['status'], $props['idSell']], $this->conn);
+
 
         if ($_POST['status'] === 'accept') {
             Request::Prepare('INSERT INTO `product` (`idModel`, `idWarehouse`) VALUES (? , 1)', [$props['idModel']], $this->conn);
         }
+
+        if ($_POST['status'] === 'counter') {
+            if (!isset($_POST['comment'])) {
+                return json_encode(['status' => 400, 'error' => 'Please specify a comment']);
+            }
+            if (!isset($_POST['price'])) {
+                return json_encode(['status' => 400, 'error' => 'Please specify a price']);
+            }
+
+
+            Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`) VALUES (?, ?, ?, ?, ?, ?, 1, \'waiting\', ?)', array(
+                $props['idSell'],
+                $idUser,
+                $_POST['price'],
+                $_POST['comment'],
+                $props['productState'],
+                $props['idModel'],
+                $props['order'] + 1
+            ), $this->conn);
+        }
+
+        Request::Prepare('UPDATE `offer` SET `status` = ? WHERE `offer`.`idOffer` = ?', [$_POST['status'], $idPorposition], $this->conn);
+        Request::Prepare('UPDATE `sell` SET `status` = ? WHERE `sell`.`idSell` = ?', [$_POST['status'], $props['idSell']], $this->conn);
 
         return json_encode(['status' => 201, 'propostition' => $idPorposition]);
     }
@@ -127,7 +149,7 @@ class Offer
     {
         UserRights::UserAdmin($this->conn);
 
-        $offers = Request::Prepare("SELECT * FROM `offer` RIGHT JOIN sell ON sell.idSell = offer.idSell WHERE offer.status == 'waiting' AND sell.status == 'waiting'  AND offer.proposedBy = 1", [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+        $offers = Request::Prepare('SELECT * FROM `offer` RIGHT JOIN sell ON sell.idSell = offer.idSell WHERE (offer.status = "waiting" OR offer.status = "counter") AND (sell.status = "waiting" OR sell.status = "counter") AND offer.proposedBy = 1', [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, 'offers' => $offers]);
     }
