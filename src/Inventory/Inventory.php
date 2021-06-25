@@ -6,19 +6,20 @@ class Inventory
     // 1: Invalid warehouse id -> exit with error
     public static function handle_daily($pathArr)
     {
-        // Check if valid id warehouse
+
         $db = new Database();
+
+        // Check if valid id warehouse
         $warehouse = new Warehouse($db->conn);
-        $result = $warehouse->get();
+        $result = $warehouse->getById($pathArr[1]);
         if (count($result) == 0) {
             return 1;
         }
 
         $today = date("Y-m-d");
 
-        $product = new Product($db->conn);
-        $imports = $product->read_import_by_date_and_warehouse($today, $pathArr[1]);
-        $exports = $product->read_export_by_date_and_warehouse($today, $pathArr[1]);
+        $imports = Inventory::read_import_by_date_and_warehouse($db->conn, $today, $pathArr[1]);
+        $exports = Inventory::read_export_by_date_and_warehouse($db->conn, $today, $pathArr[1]);
 
         if (count($imports) == 0 && count($exports) == 0) {
             return 0;
@@ -40,7 +41,7 @@ class Inventory
 
                 $writer->startElement("product");
                 foreach ($value as $key => $value2) {
-                    $writer->writeElement($key, $value2);
+                    $writer->writeAttribute($key, $value2);
                 }
                 $writer->endElement();
             }
@@ -55,7 +56,7 @@ class Inventory
 
                 $writer->startElement("product");
                 foreach ($value as $key => $value2) {
-                    $writer->writeElement($key, $value2);
+                    $writer->writeAttribute($key, $value2);
                 }
                 $writer->endElement();
             }
@@ -87,11 +88,35 @@ class Inventory
         $path = "data/inventory";
 
         if (!file_exists($path)) {
-            mkdir($path, 0777);
+            mkdir($path);
         }
 
         move_uploaded_file($_FILES["sendfile"]["tmp_name"], $path . "/" . $_FILES["sendfile"]["name"]);
 
         return 0;
+    }
+
+    private static function read_import_by_date_and_warehouse($conn, $day, $id): array
+    {
+        $query = $conn->prepare("SELECT product.idProduct,model.modelName,warehouse.location
+                                    FROM product
+                                    INNER JOIN model ON product.idModel = model.idModel
+                                    INNER JOIN warehouse ON product.idWarehouse = warehouse.idWarehouse
+                                    WHERE DATE(importDate) = ? AND product.idWarehouse = ? AND status = 'available'");
+        $query->execute([$day, $id]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    private static function read_export_by_date_and_warehouse($conn, $day, $id): array
+    {
+        $query = $conn->prepare("SELECT product.idProduct,model.modelName,warehouse.location
+                                    FROM product
+                                    INNER JOIN model ON product.idModel = model.idModel
+                                    INNER JOIN warehouse ON product.idWarehouse = warehouse.idWarehouse
+                                    INNER JOIN buyedproducts on product.idProduct = buyedproducts.idProduct
+                                    INNER JOIN buy on buyedproducts.idBuy = buy.idBuy
+                                    WHERE DATE(buy.date) = ? AND product.idWarehouse = ? AND status = 'notavailable'");
+        $query->execute([$day, $id]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 }
