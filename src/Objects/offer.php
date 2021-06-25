@@ -127,9 +127,74 @@ class Offer
     {
         UserRights::UserAdmin($this->conn);
 
-        $offers = Request::Prepare("SELECT * FROM `offer` RIGHT JOIN sell ON sell.idSell = offer.idSell WHERE offer.status <> 'accept' AND sell.status <> 'accept'  AND offer.proposedBy = 1", [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+        $offers = Request::Prepare("SELECT * FROM `offer` RIGHT JOIN sell ON sell.idSell = offer.idSell WHERE offer.status == 'waiting' AND sell.status == 'waiting'  AND offer.proposedBy = 1", [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, 'offers' => $offers]);
+    }
+
+    private function adminResponse()
+    {
+        UserRights::UserAdmin($this->conn);
+
+        if (!isset($_POST['status'])) {
+            return json_encode(['status' => 400, 'error' => 'Please specify a status']);
+        }
+
+        if (!isset($_POST['idSell'])) {
+            return json_encode(['status' => 400, 'error' => 'Please specify a idSell']);
+        }
+
+        if (!isset($_POST['idOffer'])) {
+            return json_encode(['status' => 400, 'error' => 'Please specify a idOffer']);
+        }
+
+
+        if ($_POST['status'] === "accept" || $_POST['status'] === "deny") {
+            Request::Prepare("UPDATE `offer` SET  status = ? WHERE idSell = ? AND idOffer = ?", [$_POST['status'], $_POST['idSell'], $_POST['idOffer']], $this->conn);
+            Request::Prepare('UPDATE `sell` SET `status` = ? WHERE `sell`.`idSell` = ?', [$_POST['status'], $_POST['idSell']], $this->conn);
+
+            if ($_POST['status'] === "accept") {
+                $warehouse = Request::Prepare("SELECT warehouse as idWarehouse FROM `sell` WHERE idSell = ?", [$_POST['idSell']], $this->conn)->fetch(PDO::FETCH_ASSOC);
+                $idModel = Request::Prepare("SELECT idModel FROM `offer` WHERE idOffer = ?", [$_POST['idOffer']], $this->conn)->fetch(PDO::FETCH_ASSOC);
+
+                Request::Prepare("INSERT INTO `product` (idModel, idWarehouse) VALUES (?,?);", [$warehouse['idWarehouse'], $idModel['idModel']], $this->conn);
+            }
+            return json_encode(['status' => 201]);
+        } else {
+            if (!isset($_POST['comment'])) {
+                return json_encode(['status' => 400, 'error' => 'Please specify a comment']);
+            }
+
+
+            if (!isset($_POST['price'])) {
+                return json_encode(['status' => 400, 'error' => 'Please specify a price']);
+            }
+
+            if (!isset($_POST['idUser'])) {
+                return json_encode(['status' => 400, 'error' => 'Please specify a idUser']);
+            }
+            $lastId = $this->getLastOffer($_POST['idUser'], $_POST['idSell']);
+            Request::Prepare("UPDATE `offer` SET  status = 'counter' WHERE idSell = ? AND idOffer = ?", [$_POST['idSell'], $_POST['idOffer']], $this->conn);
+            Request::Prepare('UPDATE `sell` SET `status` = "counter" WHERE `sell`.`idSell` = ?', [$_POST['idSell']], $this->conn);
+
+
+            $lastOffer =  Request::Prepare("SELECT * FROM `offer` WHERE idSell = ? ", [$_POST['idSell']], $this->conn)->fetch(PDO::FETCH_ASSOC);
+
+            Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`) VALUES (?, ?, ?, ?, ?, ?, 0, \'waiting\', ?)', array(
+                $_POST['idSell'],
+                $_POST['idUser'],
+                $_POST['price'],
+                $_POST['comment'],
+                $lastOffer['productState'],
+                $lastOffer['idModel'],
+                $lastId + 1
+            ), $this->conn);
+
+            return json_encode(['status' => 201]);
+        }
+
+
+        echo "a";
     }
 
     public function route(array $route)
@@ -144,7 +209,9 @@ class Offer
         } else if ($route[1] !== "" && $_SERVER['REQUEST_METHOD'] === 'GET') {
             return $this->getProposition($route[1]);
         } else if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
-        else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $route[1] === "AdminProposition") {
+            return $this->adminResponse();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->create();
         }
     }
