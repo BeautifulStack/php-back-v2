@@ -17,6 +17,11 @@ class Warehouse
         return json_encode(['status' => 201, 'warehouse' => $brands]);
     }
 
+    public function getById($id)
+    {
+        return Request::Prepare('SELECT idWarehouse FROM ' . $this->tableName . " WHERE idWarehouse = ?", [$id], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function create()
 
     {
