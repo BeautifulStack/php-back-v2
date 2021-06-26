@@ -98,25 +98,33 @@ class Inventory
 
     private static function read_import_by_date_and_warehouse($conn, $day, $id): array
     {
-        $query = $conn->prepare("SELECT product.idProduct,model.modelName,warehouse.location
+        $request = Request::Prepare(
+            "SELECT product.idProduct,model.modelName,warehouse.location
                                     FROM product
                                     INNER JOIN model ON product.idModel = model.idModel
                                     INNER JOIN warehouse ON product.idWarehouse = warehouse.idWarehouse
-                                    WHERE DATE(importDate) = ? AND product.idWarehouse = ? AND status = 'available'");
-        $query->execute([$day, $id]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+                                    WHERE DATE(importDate) = ? AND product.idWarehouse = ? AND status = 'available'",
+            [$day, $id],
+            $conn
+        );
+
+        return $request->fetchAll(PDO::FETCH_ASSOC);
     }
 
     private static function read_export_by_date_and_warehouse($conn, $day, $id): array
     {
-        $query = $conn->prepare("SELECT product.idProduct,model.modelName,warehouse.location
+        $request = Request::Prepare(
+            "SELECT product.idProduct,model.modelName,warehouse.location
                                     FROM product
                                     INNER JOIN model ON product.idModel = model.idModel
                                     INNER JOIN warehouse ON product.idWarehouse = warehouse.idWarehouse
                                     INNER JOIN buyedproducts on product.idProduct = buyedproducts.idProduct
                                     INNER JOIN buy on buyedproducts.idBuy = buy.idBuy
-                                    WHERE DATE(buy.date) = ? AND product.idWarehouse = ? AND status = 'notavailable'");
-        $query->execute([$day, $id]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+                                    WHERE DATE(buy.date) = ? AND product.idWarehouse = ? AND status = 'notavailable'",
+            [$day, $id],
+            $conn
+        );
+
+        return $request->fetchAll(PDO::FETCH_ASSOC);
     }
 }
