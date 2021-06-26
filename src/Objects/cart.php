@@ -19,7 +19,8 @@ class Cart
     {
         foreach ($idProduct as $product) {
             Request::Prepare('UPDATE `product` SET `status` = "notavailable" WHERE `product`.`idProduct` = ?', [$product['idProduct']], $this->conn);
-            Request::Prepare('INSERT INTO `buyedProducts` (`idBuy`, `price`, `idProduct`) VALUES (?, ?, ?)', [$orderId, 150, $product['idProduct']], $this->conn);
+            $prodInfos = Request::Prepare('SELECT resellPrice FROM `product` INNER JOIN model ON model.idModel = product.idModel WHERE `idProduct` = ? ', [$product['idProduct']], $this->conn)->fetch(PDO::FETCH_ASSOC);
+            Request::Prepare('INSERT INTO `buyedProducts` (`idBuy`, `price`, `idProduct`) VALUES (?, ?, ?)', [$orderId, $prodInfos['resellPrice'], $product['idProduct']], $this->conn);
         }
         $this->Delete($idUser);
     }
