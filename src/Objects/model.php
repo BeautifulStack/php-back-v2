@@ -61,8 +61,10 @@ class Model
             }
         }
 
-        foreach ($_POST['caract'] as $key => $value) {
-            Request::Prepare('INSERT INTO `caract` (`idModel`, `caractName`, `caractValue`) VALUES (?, ?, ?)', [$modelId, $key, $value], $this->conn);
+        $_POST['caract'] = json_decode($_POST['caract'], true);
+
+        foreach ($_POST['caract'] as $value) {
+            Request::Prepare('INSERT INTO `caract` (`idModel`, `caractName`, `caractValue`) VALUES (?, ?, ?)', [$modelId, $value['title'], $value['value']], $this->conn);
         }
 
         return json_encode(['status' => 201, 'model' => $modelId]);

@@ -22,9 +22,9 @@ class Brand
     {
         UserRights::UserAdmin($this->conn);
         if (!isset($_POST['brandName'])) return json_encode(['status' => 400, 'error' => 'Please specify a brand name']);
-        if (!isset($_POST['logo'])) return json_encode(['status' => 400, 'error' => 'Please specify a brand name']);
+        if (!isset($_POST['logo'])) return json_encode(['status' => 400, 'error' => 'Please specify a logo']);
 
-        Request::Prepare('INSERT INTO ' . $this->tableName . ' (brandName, logo) VALUES (?, ?)', array($_POST['brandName'], $_POST['logo']), $this->conn);
+        Request::Prepare('INSERT INTO ' . $this->tableName . ' (brandName, brandLogo) VALUES (?, ?)', array($_POST['brandName'], $_POST['logo']), $this->conn);
 
         $brandId = Request::Last_Id($this->conn);
 
