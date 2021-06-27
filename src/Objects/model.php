@@ -82,9 +82,45 @@ class Model
         return json_encode(['status' => 201, 'model' => $_POST["idModel"]]);
     }
 
+    public function Estimation()
+    {
+        $modelId = $_POST["idModel"];
+        $state = $_POST["status"];
+
+        if ($state === null) {
+            echo json_encode(
+                array("errors" => [
+                    "Please fill state fields!"
+                ])
+            );
+            exit;
+        }
+
+
+        // $state = [0 = 0.7, 1 = 0.5, 2 = 0.4, 3 = 0.3]
+        switch ($state) {
+            case "good":
+                $mult = 0.7;
+                break;
+            case "ok":
+                $mult = 0.5;
+                break;
+            default:
+                $mult = 0.3;
+        }
+
+
+        $model = Request::Prepare("SELECT resellPrice from `model` WHERE idModel = ?", [$modelId], $this->conn)->fetch(PDO::FETCH_ASSOC);
+
+        return json_encode(['status' => 201, 'price' => round($model['resellPrice'] * $mult)]);
+    }
+
     public function route(array $route)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Estimation") {
+            return $this->Estimation();
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "SellPossibilities") {
             return $this->SellPossibilities();
         }

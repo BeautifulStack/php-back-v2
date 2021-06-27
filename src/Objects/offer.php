@@ -35,7 +35,7 @@ class Offer
 
         $brandId = Request::Last_Id($this->conn);
 
-        return json_encode(['status' => 201, 'category' => $brandId['id']]);
+        return json_encode(['status' => 201, 'idSell' => $brandId['id']]);
     }
 
     public function createOffer()
@@ -65,7 +65,7 @@ class Offer
 
         $lastId = $this->getLastOffer($idUser, $_POST['idSell']);
 
-        Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`, `warehouse`) VALUES (?, ?, ?, ?, ?, ?, 1, \'waiting\', ?)', array(
+        Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`) VALUES (?, ?, ?, ?, ?, ?, 0, \'waiting\', ?)', array(
             $_POST['idSell'],
             $idUser,
             $_POST['price'],
@@ -149,7 +149,7 @@ class Offer
     {
         UserRights::UserAdmin($this->conn);
 
-        $offers = Request::Prepare('SELECT * FROM `offer` RIGHT JOIN sell ON sell.idSell = offer.idSell WHERE (offer.status = "waiting" OR offer.status = "counter") AND (sell.status = "waiting" OR sell.status = "counter") AND offer.proposedBy = 1', [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+        $offers = Request::Prepare('SELECT * FROM `offer` RIGHT JOIN sell ON sell.idSell = offer.idSell WHERE (offer.status = "waiting" OR offer.status = "counter") AND (sell.status = "waiting" OR sell.status = "counter") AND offer.proposedBy = 0', [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, 'offers' => $offers]);
     }
@@ -179,7 +179,7 @@ class Offer
                 $warehouse = Request::Prepare("SELECT warehouse as idWarehouse FROM `sell` WHERE idSell = ?", [$_POST['idSell']], $this->conn)->fetch(PDO::FETCH_ASSOC);
                 $idModel = Request::Prepare("SELECT idModel FROM `offer` WHERE idOffer = ?", [$_POST['idOffer']], $this->conn)->fetch(PDO::FETCH_ASSOC);
 
-                Request::Prepare("INSERT INTO `product` (idModel, idWarehouse) VALUES (?,?);", [$warehouse['idWarehouse'], $idModel['idModel']], $this->conn);
+                Request::Prepare("INSERT INTO `product` (idModel, idWarehouse) VALUES (?,?);", [$idModel['idModel'], $warehouse['idWarehouse']], $this->conn);
             }
             return json_encode(['status' => 201]);
         } else {
