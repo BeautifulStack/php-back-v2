@@ -7,3 +7,4 @@ data/association/*
 data/product_model/*
 data/private.key
 data/public.key
+build/*
