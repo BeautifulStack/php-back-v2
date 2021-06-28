@@ -23,10 +23,11 @@ class Products
 
 
 
-        $products = Request::Prepare('SELECT `originalPrice`, `resellPrice`, `modelName`, `brandName`, `categoryName`, `idProduct` FROM ' . $this->tableName . ' 
+        $products = Request::Prepare('SELECT `originalPrice`, `resellPrice`, `modelName`, `brandName`, `categoryName`, `idProduct`, `path` FROM ' . $this->tableName . ' 
         INNER JOIN `model` ON `model`.`idModel` = `product`.`idModel` 
         INNER JOIN `brand` ON `brand`.`idBrand` = `model`.`idBrand` 
         INNER JOIN `category` ON `category`.`idCategory` = `model`.`idCategory` 
+        INNER JOIN `images` ON `images`.`idModel` = `model`.`idModel` 
         WHERE `product`.`status` = "available" ' . $where, [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, 'products' => $products]);

@@ -114,6 +114,16 @@ class Router
                 echo json_encode(Stripe::do_payment($pathArr));
                 break;
 
+            case "Images":
+                $temp = explode('.', $pathArr[1]);
+                $extension = end($temp);
+                if ($extension == "jpg") $extension = "jpeg";
+                header("Content-Type: image/png");
+                echo file_get_contents('./data/product_model/' . $pathArr[1]);
+                exit();
+
+
+
             default:
                 echo json_encode(
                     array("errors" => [
