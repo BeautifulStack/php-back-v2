@@ -36,7 +36,7 @@ require_once "src/Inventory/Inventory.php";
 // Allow requests from outside domain
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS, DELETE");
 header("Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token, fairrepack_token, token");
 
 // return a JSON response
