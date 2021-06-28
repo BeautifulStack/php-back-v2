@@ -15,10 +15,10 @@ class Products
 
         $where = "";
         if (isset($_GET['category'])) {
-            $where .= " AND `category`.`categoryName` = '" . $_GET['category'] . "'";
+            $where .= " AND `category`.`idCategory` = '" . $_GET['category'] . "'";
         }
         if (isset($_GET['brand'])) {
-            $where .= " AND `brand`.`brandName` = '" . $_GET['brand'] . "'";
+            $where .= " AND `brand`.`idBrand` = '" . $_GET['brand'] . "'";
         }
 
 
@@ -38,10 +38,10 @@ class Products
 
         if (!isset($_POST['idProduct'])) return json_encode(['status' => 401, 'errors' => 'No product ID']);
 
-        $result = Request::Prepare('SELECT * FROM InCart WHERE idUser = ? AND idProduct = ?', [$user['idUser'], $_POST['idProduct']], $this->conn)->fetch(PDO::FETCH_ASSOC);
+        $result = Request::Prepare('SELECT * FROM InCart WHERE idUser = ? AND idProduct = ?', [$user, $_POST['idProduct']], $this->conn)->fetch(PDO::FETCH_ASSOC);
 
         if (!$result) {
-            Request::Prepare('INSERT INTO InCart (idUser, idProduct) VALUES (? , ?)', [$user['idUser'], $_POST['idProduct']], $this->conn);
+            Request::Prepare('INSERT INTO InCart (idUser, idProduct) VALUES (? , ?)', [$user, $_POST['idProduct']], $this->conn);
         }
 
 

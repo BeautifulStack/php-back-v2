@@ -48,6 +48,7 @@ class User
             isset($_POST['assoc_id']) ? $_POST['assoc_id'] : null
         ), $this->conn);
 
+        Email::send_email($_POST['email'], $emailCode);
 
         return json_encode(['status' => 201]);
     }
@@ -119,6 +120,14 @@ class User
         return json_encode(array("status" => 201, "users" => $users));
     }
 
+    public function validate()
+    {
+        Request::Prepare("UPDATE User SET isValidated = 1 WHERE verificationCode = ?", [$_POST['code']], $this->conn);
+
+        return json_encode(array("status" => 201));
+    }
+
+
     public function route(array $route)
     {
 
@@ -126,8 +135,10 @@ class User
             return $this->Promote();
         } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Unpromote") {
             return $this->Unpromote();
-        } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Update") {
-            return $this->update();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Unpromote") {
+            return $this->Unpromote();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Validate") {
+            return $this->validate();
         } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->create();
         } else if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
