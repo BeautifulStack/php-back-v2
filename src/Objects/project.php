@@ -12,7 +12,7 @@ class Project
 
     public function get()
     {
-        $projects = Request::Prepare('SELECT * FROM ' . $this->tableName, [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+        $projects = Request::Prepare('SELECT * FROM project WHERE active = 0', [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, 'projects' => $projects]);
     }
@@ -28,20 +28,31 @@ class Project
         return json_encode(['status' => 201, 'project' => $project]);
     }
 
+    public function getByUserId()
+    {
+        UserRights::UserAssoc($this->conn);
+
+        $id = UserRights::UserInfo($this->conn);
+        $projects = Request::Prepare('SELECT * FROM project WHERE idUser = ?', [$id], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+
+        return json_encode(['status' => 201, 'projects' => $projects]);
+    }
+
     public function create()
 
     {
         UserRights::UserAssoc($this->conn);
         if (!isset($_POST['name'])) return json_encode(['status' => 400, 'error' => 'Please specify a name']);
-        if (!isset($_POST['description'])) return json_encode(['status' => 400, 'error' => 'Please specify a description']);
-        if (!isset($_POST['objectif'])) return json_encode(['status' => 400, 'error' => 'Please specify a objectif']);
+        if (!isset($_POST['desc'])) return json_encode(['status' => 400, 'error' => 'Please specify a description']);
+        if (!isset($_POST['goal'])) return json_encode(['status' => 400, 'error' => 'Please specify a objectif']);
 
+        $id = UserRights::UserInfo($this->conn);
 
-
-        Request::Prepare('INSERT INTO ' . $this->tableName . ' ( name, description, objectif) VALUES (?, ?)', array(
+        Request::Prepare('INSERT INTO project ( name, description, objectif, idUser) VALUES (?, ?, ?, ?)', array(
             $_POST['name'],
-            $_POST['description'],
-            $_POST['objectif']
+            $_POST['desc'],
+            $_POST['goal'],
+            $id
         ), $this->conn);
 
         $project = Request::Last_Id($this->conn);
@@ -56,12 +67,41 @@ class Project
         return json_encode(['status' => 201, 'project' => $project['id']]);
     }
 
+    public function deleteById(int $id)
+    {
+        UserRights::UserAssoc($this->conn);
+
+        Request::Prepare('DELETE FROM project WHERE idProject = ?', [$id], $this->conn);
+        return json_encode(['status' => 201]);
+    }
+
+    public function withdrawById(int $id)
+    {
+        UserRights::UserAssoc($this->conn);
+        $bc = new BlockchainClient();
+
+        Request::Prepare('UPDATE ' . $this->tableName . ' SET active = ? WHERE idProject = ?', array(
+            $bc->get_balance(openssl_digest($id, "RIPEMD160")),
+            $id,
+        ), $this->conn);
+
+        $bc = new BlockchainClient();
+        $bc->new_withdraw(openssl_digest($id, "RIPEMD160"));
+        return json_encode(['status' => 201]);
+    }
+
     public function route(array $path)
     {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($path[1]) && $path[1] == "User") return $this->getByUserId();
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($path[1]) && $path[1] !== "") return $this->getById($path[1]);
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($path[1]) && $path[1] !== "") return $this->deleteById($path[1]);
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($path[1]) && $path[1] !== "") return $this->withdrawById($path[1]);
         if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->create();
+        }
+        else {
+            return json_encode(['status' => 401, 'error' => 'No valid argument']);
         }
     }
 }
