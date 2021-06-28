@@ -12,7 +12,7 @@ class Project
 
     public function get()
     {
-        $projects = Request::Prepare('SELECT * FROM ' . $this->tableName, [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+        $projects = Request::Prepare('SELECT * FROM project WHERE active = 1', [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, 'projects' => $projects]);
     }
