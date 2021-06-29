@@ -27,7 +27,7 @@ class Products
         INNER JOIN `model` ON `model`.`idModel` = `product`.`idModel` 
         INNER JOIN `brand` ON `brand`.`idBrand` = `model`.`idBrand` 
         INNER JOIN `category` ON `category`.`idCategory` = `model`.`idCategory` 
-        INNER JOIN `images` ON `images`.`idModel` = `model`.`idModel` 
+        LEFT JOIN `images` ON `images`.`idModel` = `model`.`idModel` 
         WHERE `product`.`status` = "available" ' . $where, [], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, 'products' => $products]);
@@ -55,7 +55,7 @@ class Products
 
         if (!isset($_POST['idProduct'])) return json_encode(['status' => 401, 'errors' => 'No product ID']);
 
-        Request::Prepare('DELETE FROM InCart WHERE idUser = ? AND idProduct = ?', [$user['idUser'], $_POST['idProduct']], $this->conn);
+        Request::Prepare('DELETE FROM InCart WHERE idUser = ? AND idProduct = ?', [$user, $_POST['idProduct']], $this->conn);
 
         return json_encode(['status' => 201]);
     }

@@ -117,9 +117,13 @@ class Router
             case "Images":
                 $temp = explode('.', $pathArr[1]);
                 $extension = end($temp);
-                if ($extension == "jpg") $extension = "jpeg";
-                header("Content-Type: image/png");
-                echo file_get_contents('./data/product_model/' . $pathArr[1]);
+                if ($extension == "jpg") {
+                    $extension = "jpeg";
+                    header("Content-Type: image/" . $extension);
+                } else {
+                    header("Content-Type: image/png");
+                }
+                echo file_get_contents(DATA_PATH . 'product_model/' . $pathArr[1]);
                 exit();
 
 

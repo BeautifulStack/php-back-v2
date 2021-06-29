@@ -34,10 +34,13 @@ class Stripe
 
                     ]);
 
-                    $bc = new BlockchainClient();
+                    if ($pbKey !== "") {
+                        $bc = new BlockchainClient();
 
-                    $amountGreen = round($amount["price"] / 10);
-                    $bc->new_reward($amountGreen, $pbKey);
+                        $amountGreen = round($amount["price"] / 10);
+                        $bc->new_reward($amountGreen, $pbKey);
+                    }
+
 
                     $cart = new Cart($db->conn);
                     $products = $cart->GetCart($userId);

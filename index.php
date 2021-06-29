@@ -63,4 +63,4 @@ if (count($_POST) == 0 && count($_FILES) == 0) {
 
 $router = new Router();
 
-$router->route($_GET["path"]);
+@$router->route($_GET["path"]);

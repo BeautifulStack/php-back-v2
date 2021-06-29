@@ -89,6 +89,15 @@ class User
         return json_encode(array("status" => 201));
     }
 
+    private function getAddress()
+    {
+        $idUser = UserRights::UserInfo($this->conn);
+
+        $res = Request::Prepare('SELECT publicKey FROM User WHERE idUser = ? ', [$idUser], $this->conn)->fetch(PDO::FETCH_ASSOC);
+
+        return json_encode(array("status" => 201, "address" => $res['publicKey']));
+    }
+
     private function update()
     {
         $user = UserRights::UserInfo($this->conn);
@@ -108,7 +117,7 @@ class User
         $token = User::RandomString(50);
         $update .= ", token = '" . $token . "'";
 
-        Request::Prepare('UPDATE `User` SET ' . $update . " WHERE idUser = " . $user['idUser'], [], $this->conn);
+        Request::Prepare('UPDATE `User` SET ' . $update . " WHERE idUser = " . $user, [], $this->conn);
 
         return json_encode(array("status" => 201, "token" => $token));
     }
@@ -141,8 +150,11 @@ class User
             return $this->Unpromote();
         } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Validate") {
             return $this->validate();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($route[1]) && $route[1] === "Update") {
+            return $this->update();
         } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->create();
-        } else if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
+        } else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($route[1]) && $route[1] === "Address") return $this->getAddress();
+        else if ($_SERVER['REQUEST_METHOD'] === 'GET') return $this->get();
     }
 }

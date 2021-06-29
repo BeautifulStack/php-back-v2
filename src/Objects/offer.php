@@ -109,9 +109,9 @@ class Offer
             return json_encode(['status' => 400, 'error' => 'Offer Already treated']);
         }
 
-        if ($props["proposedBy"] === 0) {
-            return json_encode(['status' => 400, 'error' => 'You cannot accept your own offer']);
-        }
+        // if ($props["proposedBy"] === 0) {
+        //     return json_encode(['status' => 400, 'error' => 'You cannot accept your own offer']);
+        // }
 
 
 
@@ -128,7 +128,7 @@ class Offer
             }
 
 
-            Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`) VALUES (?, ?, ?, ?, ?, ?, 1, \'waiting\', ?)', array(
+            Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`) VALUES (?, ?, ?, ?, ?, ?, 0, \'waiting\', ?)', array(
                 $props['idSell'],
                 $idUser,
                 $_POST['price'],
@@ -202,7 +202,7 @@ class Offer
 
             $lastOffer =  Request::Prepare("SELECT * FROM `offer` WHERE idSell = ? ", [$_POST['idSell']], $this->conn)->fetch(PDO::FETCH_ASSOC);
 
-            Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`) VALUES (?, ?, ?, ?, ?, ?, 0, \'waiting\', ?)', array(
+            Request::Prepare('INSERT INTO `offer` (`idSell`, `idUser`, `price`, `comment`, `productState`, `idModel`, `proposedBy`, `status`, `order`) VALUES (?, ?, ?, ?, ?, ?, 1, \'waiting\', ?)', array(
                 $_POST['idSell'],
                 $_POST['idUser'],
                 $_POST['price'],
