@@ -69,7 +69,7 @@ class Products
         INNER JOIN `model` ON `model`.`idModel` = `product`.`idModel` 
         INNER JOIN `brand` ON `brand`.`idBrand` = `model`.`idBrand` 
         INNER JOIN `category` ON `category`.`idCategory` = `model`.`idCategory` 
-        WHERE `product`.`status` = 'available' AND `InCart`.`idUser` = ?", [$user['idUser']], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
+        WHERE `product`.`status` = 'available' AND `InCart`.`idUser` = ?", [$user], $this->conn)->fetchAll(PDO::FETCH_ASSOC);
 
         return json_encode(['status' => 201, "products" => $results]);
     }
