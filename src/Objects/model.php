@@ -56,8 +56,8 @@ class Model
             // if ($files['type'][$i] === "image/png" ||  true) {
             $fileName = User::RandomString(10);
             $finalName = $fileName . $files['name'][$i];
-            move_uploaded_file($files['tmp_name'][$i], DATA_PATH . "product_model/" . $finalName);
-            Request::Prepare('INSERT INTO `images` (`path`, `idModel`) VALUES (? , ?)', [$finalName, $modelId], $this->conn);
+            if (move_uploaded_file($files['tmp_name'][$i], DATA_PATH . "product_model/" . $finalName))
+                Request::Prepare('INSERT INTO `images` (`path`, `idModel`) VALUES (? , ?)', [$finalName, $modelId], $this->conn);
             // }
         }
 
